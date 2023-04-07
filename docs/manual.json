@@ -1,0 +1,19 @@
+{
+  "kind": "Manual",
+  "title": "FiDB Manual",
+  "version": "0.0.1",
+  "authors": ["Xie Yuheng"],
+  "date": "2023",
+  "src": "manual",
+  "main": "00-intro.md",
+  "sections": {
+    "default": [
+      "00-intro.md",
+      "01-data-table.md",
+      "02-metadata-properties.md",
+      "03-the-http-api.md",
+      "04-access-token.md",
+      "05-register-and-login.md"
+    ]
+  }
+}

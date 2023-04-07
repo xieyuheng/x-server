@@ -1,0 +1,14 @@
+[Unit]
+Description=Pomodoro website by FiDB
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/fidb website:serve /websites/pomodoro \
+  --cors \
+  --rewrite-not-found-to index.html \
+  --cache-control-pattern 'assets/**: max-age=31536000' \
+  --public-url https://pomodoro.fidb.app
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

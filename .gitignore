@@ -1,0 +1,32 @@
+# test
+tmp
+
+# for playing with the program
+play
+
+# typescript
+lib
+
+# vitest
+coverage
+
+# npm
+node_modules
+
+# 0x
+*.0x/
+*.log
+
+# emacs
+*~
+*#*
+.#*
+
+# vscode
+.vscode
+
+# idea
+.idea
+# Local Netlify folder
+.netlify
+.vercel

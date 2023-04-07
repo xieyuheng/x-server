@@ -1,0 +1,16 @@
+[Unit]
+Description=Readonly.Link website by FiDB
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/fidb website:serve /websites/readonlylink \
+  --cors \
+  --port 443 \
+  --rewrite-not-found-to index.html \
+  --cache-control-pattern 'assets/**: max-age=31536000' \
+  --tls-cert /etc/letsencrypt/live/readonly.link/fullchain.pem \
+  --tls-key /etc/letsencrypt/live/readonly.link/privkey.pem
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
