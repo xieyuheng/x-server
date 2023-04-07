@@ -1,6 +1,6 @@
 {
   "name": "website-server",
-  "version": "0.0.23",
+  "version": "0.0.1",
   "repository": "github:fidb-official/website-server",
   "main": "./lib/index.js",
   "files": [

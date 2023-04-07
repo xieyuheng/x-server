@@ -1,5 +1,3 @@
-remove code not about `website-server`
-
 # fidb website:deploy
 
 one machine

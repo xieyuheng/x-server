@@ -1,6 +1,5 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
-import * as ReverseProxyClient from "../../reverse-proxy-client"
 import { createRequestListener } from "../../server/createRequestListener"
 import { startServer } from "../../server/startServer"
 import { changeLogger, log } from "../../utils/log"
@@ -16,7 +15,6 @@ type Opts = {
   cors?: boolean
   "tls-cert"?: string
   "tls-key"?: string
-  "public-url"?: string
   logger?: string
 }
 
@@ -36,7 +34,6 @@ export class WebsiteServeCommand extends Command<Args> {
     cors: ty.optional(ty.boolean()),
     "tls-cert": ty.optional(ty.string()),
     "tls-key": ty.optional(ty.string()),
-    "public-url": ty.optional(ty.string()),
     logger: ty.optional(ty.string()),
   }
 
@@ -88,22 +85,6 @@ export class WebsiteServeCommand extends Command<Args> {
     })
 
     log({ who, ctx, url: String(url), tls })
-
-    if (argv["public-url"]) {
-      const successful = await ReverseProxyClient.connect({
-        publicURL: new URL(argv["public-url"]),
-        local: {
-          hostname: url.hostname,
-          port: Number(url.port),
-        },
-      })
-
-      log({ who, publicURL: argv["public-url"] })
-
-      if (!successful) {
-        process.exit(1)
-      }
-    }
   }
 }
 
