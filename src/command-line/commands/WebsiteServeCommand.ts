@@ -3,8 +3,8 @@ import ty from "@xieyuheng/ty"
 import { createRequestListener } from "../../server/createRequestListener"
 import { startServer } from "../../server/startServer"
 import { changeLogger, log } from "../../utils/log"
-import { handle } from "../../website-server"
 import { createContext } from "../../website-server/Context"
+import { handle } from "../../website-server/handle"
 
 type Args = { path: string }
 type Opts = {
