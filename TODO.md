@@ -1,3 +1,5 @@
+remove not used dependencies
+
 # deploy command
 
 one machine
