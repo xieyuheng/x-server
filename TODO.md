@@ -1,5 +1,3 @@
-remove `docs/diary`
-
 # deploy command
 
 one machine
