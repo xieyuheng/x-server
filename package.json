@@ -1,7 +1,7 @@
 {
-  "name": "fidb",
+  "name": "website-server",
   "version": "0.0.23",
-  "repository": "github:fidb-official/fidb",
+  "repository": "github:fidb-official/website-server",
   "main": "./lib/index.js",
   "files": [
     "lib"
@@ -10,7 +10,7 @@
     "node": ">=18"
   },
   "bin": {
-    "fidb": "bin/fidb.js"
+    "website-server": "bin/website-server.js"
   },
   "scripts": {
     "prepare": "husky install",

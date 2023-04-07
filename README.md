@@ -1,9 +1,4 @@
-# FiDB
-
-[ [WEBWITE](https://fidb.dev)
-| [MANUAL](https://readonly.link/manuals/https://cdn.fidb.dev/docs/manual.json) ]
-
-File system as database.
+# Website Server
 
 ## Usages
 
@@ -12,15 +7,10 @@ File system as database.
 Install it by the following command:
 
 ```sh
-sudo npm install -g fidb
+sudo npm install -g website-server
 ```
 
-The command line program is called `fidb`.
-
-```sh
-fidb help                # Print help message
-fidb serve <path>        # Serve a database
-```
+The command line program is called `website-server`.
 
 ## Development
 
