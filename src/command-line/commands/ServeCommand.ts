@@ -18,8 +18,8 @@ type Opts = {
   logger?: string
 }
 
-export class WebsiteServeCommand extends Command<Args> {
-  name = "website:serve"
+export class ServeCommand extends Command<Args> {
+  name = "serve"
 
   description = "Serve a website"
 
