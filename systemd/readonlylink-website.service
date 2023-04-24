@@ -3,7 +3,7 @@ Description=Readonly.Link website by FiDB
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/fidb website:serve /websites/readonlylink \
+ExecStart=/usr/local/bin/website-server serve /websites/readonlylink \
   --cors \
   --port 443 \
   --rewrite-not-found-to index.html \
