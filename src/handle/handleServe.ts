@@ -1,8 +1,6 @@
 import type { Buffer } from "node:buffer"
 import type Http from "node:http"
 import { normalize } from "node:path"
-import { promisify } from "node:util"
-import Zlib from "node:zlib"
 import { handlePreflight } from "../server/handlePreflight"
 import type { Json } from "../utils/Json"
 import { compress } from "../utils/node/compress"
@@ -14,9 +12,6 @@ import type { Context } from "./Context"
 import { readContentWithRewrite } from "./readContentWithRewrite"
 import { responseSetCacheControlHeaders } from "./responseSetCacheControlHeaders"
 import { responseSetCorsHeaders } from "./responseSetCorsHeaders"
-
-const brotliCompress = promisify(Zlib.brotliCompress)
-const gzip = promisify(Zlib.gzip)
 
 export async function handleServe(
   ctx: Context,
@@ -62,8 +57,9 @@ export async function handleServe(
   }
 
   throw new Error(
-    [`[handleServe] unhandled http request`, `  method: ${request.method}`].join(
-      "\n",
-    ),
+    [
+      `[handleServe] unhandled http request`,
+      `  method: ${request.method}`,
+    ].join("\n"),
   )
 }
