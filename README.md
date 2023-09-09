@@ -1,5 +1,7 @@
 # Website Server
 
+A website server that supports serving many websites by subdomain-based routing.
+
 ## Usages
 
 ### Command line tool
