@@ -7,7 +7,7 @@
 Install it by the following command:
 
 ```sh
-sudo npm install -g website-server
+npm install -g website-server
 ```
 
 The command line program is called `website-server`.
