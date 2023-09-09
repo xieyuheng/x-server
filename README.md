@@ -47,7 +47,7 @@ Serve a single-page-app using `https` with a `website.json` config file:
 {
   "cors": true,
   "rewriteNotFoundTo": "index.html",
-  "cacheControlPattern": {
+  "cacheControlPatterns": {
     "assets/**": "max-age=31536000"
   }
 }

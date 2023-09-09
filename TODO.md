@@ -1,6 +1,5 @@
 # website.json
 
-`websiteConfigFromCommandLineOptions`
 `readWebsiteConfigFile`
 `mergeWebsiteConfigs`
 

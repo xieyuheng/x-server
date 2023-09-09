@@ -5,6 +5,7 @@ import { handleServe } from "../../handle/handleServe"
 import { createRequestListener } from "../../server/createRequestListener"
 import { startServer } from "../../server/startServer"
 import { changeLogger, log } from "../../utils/log"
+import { websiteConfigFromCommandLineOptions } from "../../website/websiteConfigFromCommandLineOptions"
 
 type Args = { path: string }
 type Opts = {
@@ -57,16 +58,9 @@ export class ServeCommand extends Command<Args> {
 
     const who = this.name
 
-    const cacheControlPatterns = createCacheControlPatterns(
-      argv["cache-control-pattern"],
-    )
+    const websiteConfig = websiteConfigFromCommandLineOptions(argv)
 
-    const ctx = await createContext({
-      path: argv.path,
-      rewriteNotFoundTo: argv["rewrite-not-found-to"],
-      cacheControlPatterns,
-      cors: argv["cors"],
-    })
+    const ctx = await createContext({ path: argv.path, ...websiteConfig })
 
     const requestListener = createRequestListener({ ctx, handle: handleServe })
     const tls =
@@ -86,21 +80,4 @@ export class ServeCommand extends Command<Args> {
 
     log({ who, ctx, url: String(url), tls })
   }
-}
-
-function createCacheControlPatterns(
-  input: undefined | string | Array<string>,
-): Record<string, string> {
-  if (input === undefined) {
-    return {}
-  }
-
-  if (typeof input === "string") {
-    const [pattern, value] = input.split(":").map((s) => s.trim())
-    return Object.fromEntries([[pattern, value]])
-  }
-
-  return Object.fromEntries(
-    input.map((entry) => entry.split(":").map((s) => s.trim())),
-  )
 }
