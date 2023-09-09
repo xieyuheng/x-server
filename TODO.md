@@ -1,7 +1,3 @@
-# serve
-
-`ServeCommand` -- can also take options from `website.json` config file
-
 # serve many
 
 `ServeManyCommand` setup command

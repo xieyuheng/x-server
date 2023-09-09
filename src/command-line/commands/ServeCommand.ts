@@ -1,10 +1,14 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
+import { dirname } from "node:path"
 import { createContext } from "../../handle/Context"
 import { handleServe } from "../../handle/handleServe"
 import { createRequestListener } from "../../server/createRequestListener"
 import { startServer } from "../../server/startServer"
 import { changeLogger, log } from "../../utils/log"
+import { pathIsFile } from "../../utils/node/pathIsFile"
+import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
+import { readWebsiteConfigFile } from "../../website/readWebsiteConfigFile"
 import { websiteConfigFromCommandLineOptions } from "../../website/websiteConfigFromCommandLineOptions"
 
 type Args = { path: string }
@@ -63,9 +67,27 @@ export class ServeCommand extends Command<Args> {
 
     const who = this.name
 
-    const websiteConfig = websiteConfigFromCommandLineOptions(argv)
-    const ctx = await createContext({ path: argv.path, ...websiteConfig })
-    const requestListener = createRequestListener({ ctx, handle: handleServe })
+    let requestListener
+    if (await pathIsFile(argv.path)) {
+      const websiteConfig = mergeWebsiteConfigs([
+        await readWebsiteConfigFile(argv.path),
+        websiteConfigFromCommandLineOptions(argv),
+      ])
+
+      const path = dirname(argv.path)
+      const ctx = await createContext({ path, ...websiteConfig })
+      log({ who, message: "createContext", ctx })
+
+      requestListener = createRequestListener({ ctx, handle: handleServe })
+    } else {
+      const websiteConfig = websiteConfigFromCommandLineOptions(argv)
+
+      const { path } = argv
+      const ctx = await createContext({ path, ...websiteConfig })
+      log({ who, message: "createContext", ctx })
+
+      requestListener = createRequestListener({ ctx, handle: handleServe })
+    }
 
     const tls =
       argv["tls-cert"] && argv["tls-key"]
@@ -82,6 +104,6 @@ export class ServeCommand extends Command<Args> {
       tls,
     })
 
-    log({ who, ctx, url: String(url), tls })
+    log({ who, message: "startServer", url: String(url), tls })
   }
 }
