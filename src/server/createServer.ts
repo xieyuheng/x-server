@@ -2,13 +2,9 @@ import fs from "node:fs"
 import Http from "node:http"
 import Https from "node:https"
 import type { RequestListener } from "../server/createRequestListener"
+import { TlsOptions } from "./TlsOptions"
 
-export type TlsOptions = {
-  certPath: string
-  keyPath: string
-}
-
-type Options = {
+type SreateServerOptions = {
   tls?: TlsOptions
 }
 
@@ -18,15 +14,15 @@ type Result =
 
 export async function createServer(
   requestListener: RequestListener,
-  options: Options,
+  options: SreateServerOptions,
 ): Promise<Result> {
   if (options.tls) {
     return {
       scheme: "https",
       server: Https.createServer(
         {
-          cert: await fs.promises.readFile(options.tls.certPath),
-          key: await fs.promises.readFile(options.tls.keyPath),
+          cert: await fs.promises.readFile(options.tls.cert),
+          key: await fs.promises.readFile(options.tls.key),
         },
         requestListener,
       ),

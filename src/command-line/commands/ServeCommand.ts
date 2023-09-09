@@ -92,8 +92,8 @@ export class ServeCommand extends Command<Args> {
     const tls =
       argv["tls-cert"] && argv["tls-key"]
         ? {
-            certPath: argv["tls-cert"],
-            keyPath: argv["tls-key"],
+            cert: argv["tls-cert"],
+            key: argv["tls-key"],
           }
         : undefined
 
