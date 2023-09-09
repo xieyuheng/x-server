@@ -1,9 +1,9 @@
 import { WebsiteConfig } from "./WebsiteConfig"
 
 export function websiteConfigFromCommandLineOptions(options: {
+  cors?: boolean
   "rewrite-not-found-to"?: string
   "cache-control-pattern"?: string | Array<string>
-  cors?: boolean
   logger?: string
 }): WebsiteConfig {
   const cacheControlPatterns = createCacheControlPatterns(
@@ -14,6 +14,7 @@ export function websiteConfigFromCommandLineOptions(options: {
     cors: options["cors"],
     rewriteNotFoundTo: options["rewrite-not-found-to"],
     cacheControlPatterns,
+    logger: options["logger"],
   }
 }
 

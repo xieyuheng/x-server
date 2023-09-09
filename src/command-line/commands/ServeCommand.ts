@@ -11,11 +11,12 @@ type Args = { path: string }
 type Opts = {
   hostname?: string
   port?: number
-  "rewrite-not-found-to"?: string
-  "cache-control-pattern"?: string | Array<string>
-  cors?: boolean
   "tls-cert"?: string
   "tls-key"?: string
+  // For `WebsiteConfig`:
+  cors?: boolean
+  "rewrite-not-found-to"?: string
+  "cache-control-pattern"?: string | Array<string>
   logger?: string
 }
 
@@ -28,13 +29,14 @@ export class ServeCommand extends Command<Args> {
   opts = {
     hostname: ty.optional(ty.string()),
     port: ty.optional(ty.number()),
+    "tls-cert": ty.optional(ty.string()),
+    "tls-key": ty.optional(ty.string()),
+    // For `WebsiteConfig`:
+    cors: ty.optional(ty.boolean()),
     "rewrite-not-found-to": ty.optional(ty.string()),
     "cache-control-pattern": ty.optional(
       ty.union(ty.string(), ty.array(ty.string())),
     ),
-    cors: ty.optional(ty.boolean()),
-    "tls-cert": ty.optional(ty.string()),
-    "tls-key": ty.optional(ty.string()),
     logger: ty.optional(ty.string()),
   }
 

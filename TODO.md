@@ -1,6 +1,5 @@
 # website.json
 
-`readWebsiteConfigFile`
 `mergeWebsiteConfigs`
 
 # serve
