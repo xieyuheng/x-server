@@ -1,3 +1,3 @@
 export function packageJson() {
-  return require("../../package.json")
+  return require("../../../package.json")
 }
