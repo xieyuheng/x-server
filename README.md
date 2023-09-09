@@ -12,6 +12,66 @@ npm install -g website-server
 
 The command line program is called `website-server`.
 
+## Examples
+
+### `website-server serve`
+
+Serve a single-page-app using `http` with an available port (starting from 8080):
+
+```sh
+website-server serve /websites/pomodoro \
+  --cors \
+  --rewrite-not-found-to index.html \
+  --cache-control-pattern 'assets/**: max-age=31536000'
+```
+
+Serve a single-page-app using `https` with a given port:
+
+```sh
+website-server serve /websites/readonlylink \
+  --cors \
+  --port 443 \
+  --rewrite-not-found-to index.html \
+  --cache-control-pattern 'assets/**: max-age=31536000' \
+  --tls-cert /etc/letsencrypt/live/readonly.link/fullchain.pem \
+  --tls-key /etc/letsencrypt/live/readonly.link/privkey.pem
+```
+
+Serve a single-page-app using `https` with a `website.json` config file:
+
+`/websites/readonlylink/website.json`:
+
+```json
+{
+  "cors": true,
+  "rewriteNotFoundTo": "index.html",
+  "cacheControlPattern": {
+    "assets/**": "max-age=31536000"
+  }
+}
+
+```
+
+```sh
+website-server serve /websites/readonlylink \
+  --port 443 \
+  --tls-cert /etc/letsencrypt/live/readonly.link/fullchain.pem \
+  --tls-key /etc/letsencrypt/live/readonly.link/privkey.pem
+```
+
+### `website-server serve-many`
+
+Serve many websites in a directory, using subdomain-based routing:
+
+- Each website might have it's own `website.json` config file.
+
+```
+website-server serve-many /websites \
+  --port 443 \
+  --tls-cert /etc/letsencrypt/live/fidb.app/fullchain.pem \
+  --tls-key /etc/letsencrypt/live/fidb.app/privkey.pem
+```
+
 ## Development
 
 ```sh
