@@ -18,7 +18,7 @@ import { responseSetCorsHeaders } from "./responseSetCorsHeaders"
 const brotliCompress = promisify(Zlib.brotliCompress)
 const gzip = promisify(Zlib.gzip)
 
-export async function handle(
+export async function handleServe(
   ctx: Context,
   request: Http.IncomingMessage,
   response: Http.ServerResponse,
@@ -62,7 +62,7 @@ export async function handle(
   }
 
   throw new Error(
-    [`[handle] unhandled http request`, `  method: ${request.method}`].join(
+    [`[handleServe] unhandled http request`, `  method: ${request.method}`].join(
       "\n",
     ),
   )

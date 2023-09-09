@@ -1,7 +1,7 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
 import { createContext } from "../../handle/Context"
-import { handle } from "../../handle/handle"
+import { handleServe } from "../../handle/handleServe"
 import { createRequestListener } from "../../server/createRequestListener"
 import { startServer } from "../../server/startServer"
 import { changeLogger, log } from "../../utils/log"
@@ -68,7 +68,7 @@ export class ServeCommand extends Command<Args> {
       cors: argv["cors"],
     })
 
-    const requestListener = createRequestListener({ ctx, handle })
+    const requestListener = createRequestListener({ ctx, handle: handleServe })
     const tls =
       argv["tls-cert"] && argv["tls-key"]
         ? {
