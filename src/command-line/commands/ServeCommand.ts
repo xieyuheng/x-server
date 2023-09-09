@@ -43,10 +43,13 @@ export class ServeCommand extends Command<Args> {
     const { blue } = this.colors
 
     return [
-      `The ${blue(this.name)} command takes a path to a directory,`,
+      `The ${blue(this.name)} command takes a path`,
+      `to a website directory or to a ${blue('website.json')} file,`,
       `and serve it as a website.`,
       ``,
       blue(`  ${runner.name} ${this.name} dist`),
+      ``,
+      blue(`  ${runner.name} ${this.name} dist/website.json`),
       ``,
     ].join("\n")
   }
@@ -59,10 +62,9 @@ export class ServeCommand extends Command<Args> {
     const who = this.name
 
     const websiteConfig = websiteConfigFromCommandLineOptions(argv)
-
     const ctx = await createContext({ path: argv.path, ...websiteConfig })
-
     const requestListener = createRequestListener({ ctx, handle: handleServe })
+
     const tls =
       argv["tls-cert"] && argv["tls-key"]
         ? {
