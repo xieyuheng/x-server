@@ -1,4 +1,5 @@
-import { TlsOptions } from "./TlsOptions"
+import { Schema, ty } from "@xieyuheng/ty"
+import { TlsOptions, TlsOptionsSchema } from "./TlsOptions"
 
 export type StartServerOptions = {
   hostname?: string
@@ -7,4 +8,9 @@ export type StartServerOptions = {
   tls?: TlsOptions
 }
 
-// export const StartServerOptionsSchema: Schema<StartServerOptions> =
+export const StartServerOptionsSchema: Schema<StartServerOptions> = ty.object({
+  hostname: ty.string(),
+  port: ty.number(),
+  startingPort: ty.number(),
+  tls: TlsOptionsSchema,
+})

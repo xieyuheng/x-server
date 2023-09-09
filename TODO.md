@@ -1,5 +1,3 @@
-extract `StartServerOptions`
-
 `WebsiteConfig` -- support `StartServerOptions`
 
 # serve many
