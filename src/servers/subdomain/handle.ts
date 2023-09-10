@@ -9,6 +9,7 @@ import { requestPathname } from "../../utils/node/requestPathname"
 import { requestSubdomain } from "../../utils/node/requestSubdomain"
 import { responseSetHeaders } from "../../utils/node/responseSetHeaders"
 import { responseSetStatus } from "../../utils/node/responseSetStatus"
+import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
 import { readContentWithRewrite } from "../../website/readContentWithRewrite"
 import { readWebsiteConfigFileOrDefault } from "../../website/readWebsiteConfigFileOrDefault"
 import { responseSetCacheControlHeaders } from "../../website/responseSetCacheControlHeaders"
@@ -23,9 +24,10 @@ export async function handle(
   const subdomain = requestSubdomain(request, ctx.domain)
 
   const subdirectory = normalize(resolve(ctx.directory, subdomain))
-  const config = await readWebsiteConfigFileOrDefault(
-    `${subdirectory}/website.json`,
-  )
+  const config = mergeWebsiteConfigs([
+    ctx.rootConfig,
+    await readWebsiteConfigFileOrDefault(`${subdirectory}/website.json`),
+  ])
 
   if (config.cors) {
     if (request.method === "OPTIONS") {
