@@ -5,7 +5,7 @@ import { handlePreflight } from "../../server/handlePreflight"
 import type { Json } from "../../utils/Json"
 import { compress } from "../../utils/node/compress"
 import { requestCompressionMethod } from "../../utils/node/requestCompressionMethod"
-import { requestURL } from "../../utils/node/requestURL"
+import { requestPathname } from "../../utils/node/requestPathname"
 import { responseSetHeaders } from "../../utils/node/responseSetHeaders"
 import { responseSetStatus } from "../../utils/node/responseSetStatus"
 import type { Context } from "./Context"
@@ -24,10 +24,10 @@ export async function handle(
     }
   }
 
-  const url = requestURL(request)
+  const pathname = requestPathname(request)
 
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
-  const path = normalize(decodeURIComponent(url.pathname.slice(1)))
+  const path = normalize(decodeURIComponent(pathname.slice(1)))
 
   if (request.method === "GET") {
     responseSetCorsHeaders(ctx, response)

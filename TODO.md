@@ -1,5 +1,3 @@
-`requestPathname` -- quit using `requestURL`
-
 `requestSubdomain` -- take `baseDomain`
 
 # subdomain
