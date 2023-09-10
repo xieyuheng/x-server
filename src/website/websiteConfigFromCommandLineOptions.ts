@@ -23,13 +23,15 @@ export function websiteConfigFromCommandLineOptions(options: {
       : undefined
 
   return {
-    hostname: options["hostname"],
-    port: options["port"],
-    tls,
+    server: {
+      hostname: options["hostname"],
+      port: options["port"],
+      tls,
+      logger: options["logger"],
+    },
     cors: options["cors"],
     rewriteNotFoundTo: options["rewrite-not-found-to"],
     cacheControlPatterns,
-    logger: options["logger"],
   }
 }
 

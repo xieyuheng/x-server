@@ -45,10 +45,12 @@ Serve a single-page-app using `https` with a `website.json` config file:
 
 ```json
 {
-  "port": 443,
-  "tls": {
-    "cert": "/etc/letsencrypt/live/readonly.link/fullchain.pem",
-    "key": "/etc/letsencrypt/live/readonly.link/privkey.pem"
+  "server": {
+    "port": 443,
+    "tls": {
+      "cert": "/etc/letsencrypt/live/readonly.link/fullchain.pem",
+      "key": "/etc/letsencrypt/live/readonly.link/privkey.pem"
+    }
   },
   "cors": true,
   "rewriteNotFoundTo": "index.html",

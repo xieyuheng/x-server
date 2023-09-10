@@ -1,3 +1,4 @@
+import { objectRemoveUndefined } from "../utils/objectRemoveUndefined"
 import { WebsiteConfig } from "./WebsiteConfig"
 import { emptyWebsiteConfig } from "./emptyWebsiteConfig"
 
@@ -18,16 +19,18 @@ function mergeTwoWebsiteConfigs(
 ): WebsiteConfig {
   const cacheControlPatterns = {
     ...left.cacheControlPatterns,
-    ...right.cacheControlPatterns,
-  }
+    ...objectRemoveUndefined(right.cacheControlPatterns),
+  } as Record<string, string>
 
-  right = Object.fromEntries(
-    Object.entries(right).filter(([key, value]) => value !== undefined),
-  ) as WebsiteConfig
+  const server = {
+    ...left.server,
+    ...objectRemoveUndefined(right.server || {}),
+  }
 
   return {
     ...left,
-    ...right,
+    ...(objectRemoveUndefined(right) as WebsiteConfig),
+    server,
     cacheControlPatterns,
   }
 }

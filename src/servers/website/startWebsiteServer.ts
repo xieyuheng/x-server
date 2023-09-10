@@ -17,7 +17,7 @@ export async function startWebsiteServer(
 
   const listener = createRequestListener({ ctx, handle })
 
-  const { url } = await startServer(listener, config)
+  const { url } = await startServer(listener, config.server || {})
 
   log({ who, message: "startServer", url: String(url) })
 }
