@@ -1,5 +1,3 @@
-[subdomain] extract `createContext`
-
 # subdomain
 
 [subdomain] `handle` -- do subdomain-based routing for many websites
