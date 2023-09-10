@@ -1,5 +1,3 @@
-`requestSubdomain` -- take `baseDomain`
-
 # subdomain
 
 [subdomain] `handle` -- do subdomain-based routing for many websites
