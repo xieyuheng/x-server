@@ -21,6 +21,10 @@ function mergeTwoWebsiteConfigs(
     ...right.cacheControlPatterns,
   }
 
+  right = Object.fromEntries(
+    Object.entries(right).filter(([key, value]) => value !== undefined),
+  ) as WebsiteConfig
+
   return {
     ...left,
     ...right,

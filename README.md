@@ -45,6 +45,11 @@ Serve a single-page-app using `https` with a `website.json` config file:
 
 ```json
 {
+  "port": 443,
+  "tls": {
+    "cert": "/etc/letsencrypt/live/readonly.link/fullchain.pem",
+    "key": "/etc/letsencrypt/live/readonly.link/privkey.pem"
+  },
   "cors": true,
   "rewriteNotFoundTo": "index.html",
   "cacheControlPatterns": {
@@ -55,10 +60,7 @@ Serve a single-page-app using `https` with a `website.json` config file:
 ```
 
 ```sh
-website-server serve /websites/readonlylink/website.json \
-  --port 443 \
-  --tls-cert /etc/letsencrypt/live/readonly.link/fullchain.pem \
-  --tls-key /etc/letsencrypt/live/readonly.link/privkey.pem
+website-server serve /websites/readonlylink/website.json
 ```
 
 ### `website-server serve-many`

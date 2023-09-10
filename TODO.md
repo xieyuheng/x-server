@@ -1,4 +1,4 @@
-`WebsiteConfig` -- support `StartServerOptions`
+`Context` has `config`
 
 # serve many
 

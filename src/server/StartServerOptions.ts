@@ -9,8 +9,8 @@ export type StartServerOptions = {
 }
 
 export const StartServerOptionsSchema: Schema<StartServerOptions> = ty.object({
-  hostname: ty.string(),
-  port: ty.number(),
-  startingPort: ty.number(),
-  tls: TlsOptionsSchema,
+  hostname: ty.optional(ty.string()),
+  port: ty.optional(ty.number()),
+  startingPort: ty.optional(ty.number()),
+  tls: ty.optional(TlsOptionsSchema),
 })

@@ -17,7 +17,6 @@ type Opts = {
   port?: number
   "tls-cert"?: string
   "tls-key"?: string
-  // For `WebsiteConfig`:
   cors?: boolean
   "rewrite-not-found-to"?: string
   "cache-control-pattern"?: string | Array<string>
@@ -35,7 +34,6 @@ export class ServeCommand extends Command<Args> {
     port: ty.optional(ty.number()),
     "tls-cert": ty.optional(ty.string()),
     "tls-key": ty.optional(ty.string()),
-    // For `WebsiteConfig`:
     cors: ty.optional(ty.boolean()),
     "rewrite-not-found-to": ty.optional(ty.string()),
     "cache-control-pattern": ty.optional(
@@ -67,43 +65,41 @@ export class ServeCommand extends Command<Args> {
 
     const who = this.name
 
-    let requestListener
     if (await pathIsFile(argv.path)) {
       const websiteConfig = mergeWebsiteConfigs([
         await readWebsiteConfigFile(argv.path),
         websiteConfigFromCommandLineOptions(argv),
       ])
 
+      log({ who, message: "create config", websiteConfig })
+
       const path = dirname(argv.path)
       const ctx = await createContext({ path, ...websiteConfig })
-      log({ who, message: "createContext", ctx })
 
-      requestListener = createRequestListener({ ctx, handle: handleServe })
+      log({ who, message: "create context", ctx })
+
+      const { url } = await startServer(
+        createRequestListener({ ctx, handle: handleServe }),
+        websiteConfig,
+      )
+
+      log({ who, message: "start server", url: String(url) })
     } else {
       const websiteConfig = websiteConfigFromCommandLineOptions(argv)
 
+      log({ who, message: "creaet config", websiteConfig })
+
       const { path } = argv
       const ctx = await createContext({ path, ...websiteConfig })
-      log({ who, message: "createContext", ctx })
 
-      requestListener = createRequestListener({ ctx, handle: handleServe })
+      log({ who, message: "create context", ctx })
+
+      const { url } = await startServer(
+        createRequestListener({ ctx, handle: handleServe }),
+        websiteConfig,
+      )
+
+      log({ who, message: "startServer", url: String(url) })
     }
-
-    const tls =
-      argv["tls-cert"] && argv["tls-key"]
-        ? {
-            cert: argv["tls-cert"],
-            key: argv["tls-key"],
-          }
-        : undefined
-
-    const { url } = await startServer(requestListener, {
-      hostname: argv.hostname,
-      port: argv.port,
-      startingPort: 8080,
-      tls,
-    })
-
-    log({ who, message: "startServer", url: String(url), tls })
   }
 }

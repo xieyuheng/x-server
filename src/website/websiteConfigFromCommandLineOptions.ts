@@ -1,6 +1,10 @@
 import { WebsiteConfig } from "./WebsiteConfig"
 
 export function websiteConfigFromCommandLineOptions(options: {
+  hostname?: string
+  port?: number
+  "tls-cert"?: string
+  "tls-key"?: string
   cors?: boolean
   "rewrite-not-found-to"?: string
   "cache-control-pattern"?: string | Array<string>
@@ -10,7 +14,18 @@ export function websiteConfigFromCommandLineOptions(options: {
     options["cache-control-pattern"],
   )
 
+  const tls =
+    options["tls-cert"] && options["tls-key"]
+      ? {
+          cert: options["tls-cert"],
+          key: options["tls-key"],
+        }
+      : undefined
+
   return {
+    hostname: options["hostname"],
+    port: options["port"],
+    tls,
     cors: options["cors"],
     rewriteNotFoundTo: options["rewrite-not-found-to"],
     cacheControlPatterns,
