@@ -41,7 +41,11 @@ website-server serve /websites/readonlylink \
 
 Serve a single-page-app using `https` with a `website.json` config file:
 
-`/websites/readonlylink/website.json`:
+```sh
+website-server serve /websites/readonlylink/website.json
+```
+
+Where `/websites/readonlylink/website.json`:
 
 ```json
 {
@@ -58,11 +62,6 @@ Serve a single-page-app using `https` with a `website.json` config file:
     "assets/**": "max-age=31536000"
   }
 }
-
-```
-
-```sh
-website-server serve /websites/readonlylink/website.json
 ```
 
 ### `website-server serve-many`
