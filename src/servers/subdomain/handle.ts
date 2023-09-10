@@ -3,6 +3,7 @@ import type Http from "node:http"
 import { normalize, resolve } from "node:path"
 import { handlePreflight } from "../../server/handlePreflight"
 import type { Json } from "../../utils/Json"
+import { log } from "../../utils/log"
 import { compress } from "../../utils/node/compress"
 import { requestCompressionMethod } from "../../utils/node/requestCompressionMethod"
 import { requestPathname } from "../../utils/node/requestPathname"
@@ -40,6 +41,13 @@ export async function handle(
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(pathname.slice(1)))
 
+  log({
+    who: "subdomain/handle",
+    message: "request",
+    subdomain,
+    pathname,
+  })
+
   if (request.method === "GET") {
     responseSetCorsHeaders(config, response)
     responseSetCacheControlHeaders(config, response, path)
@@ -47,7 +55,17 @@ export async function handle(
     const content = await readContentWithRewrite(subdirectory, config, path)
 
     if (content === undefined) {
-      responseSetStatus(response, { code: 404 })
+      const code = 404
+
+      log({
+        who: "subdomain/handle",
+        message: "response",
+        subdomain,
+        pathname,
+        code,
+      })
+
+      responseSetStatus(response, { code })
       responseSetHeaders(response, {
         connection: "close",
       })
@@ -58,7 +76,18 @@ export async function handle(
     const compressionMethod = requestCompressionMethod(request)
     const buffer = await compress(compressionMethod, content.buffer)
 
-    responseSetStatus(response, { code: 200 })
+    const code = 200
+
+    log({
+      who: "subdomain/handle",
+      message: "response",
+      subdomain,
+      pathname,
+      code,
+      "content-type": content.type,
+    })
+
+    responseSetStatus(response, { code })
     responseSetHeaders(response, {
       "content-type": content.type,
       "content-encoding": compressionMethod,

@@ -3,6 +3,7 @@ import type Http from "node:http"
 import { normalize } from "node:path"
 import { handlePreflight } from "../../server/handlePreflight"
 import type { Json } from "../../utils/Json"
+import { log } from "../../utils/log"
 import { compress } from "../../utils/node/compress"
 import { requestCompressionMethod } from "../../utils/node/requestCompressionMethod"
 import { requestPathname } from "../../utils/node/requestPathname"
@@ -18,18 +19,18 @@ export async function handle(
   request: Http.IncomingMessage,
   response: Http.ServerResponse,
 ): Promise<Json | Buffer | void> {
-
   if (ctx.config.cors) {
     if (request.method === "OPTIONS") {
       return handlePreflight(request, response)
     }
   }
 
-
   const pathname = requestPathname(request)
 
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(pathname.slice(1)))
+
+  log({ who: "website/handle", message: "request", pathname })
 
   if (request.method === "GET") {
     responseSetCorsHeaders(ctx.config, response)
@@ -42,7 +43,16 @@ export async function handle(
     )
 
     if (content === undefined) {
-      responseSetStatus(response, { code: 404 })
+      const code = 404
+
+      log({
+        who: "website/handle",
+        message: "response",
+        pathname,
+        code,
+      })
+
+      responseSetStatus(response, { code })
       responseSetHeaders(response, {
         connection: "close",
       })
@@ -53,7 +63,17 @@ export async function handle(
     const compressionMethod = requestCompressionMethod(request)
     const buffer = await compress(compressionMethod, content.buffer)
 
-    responseSetStatus(response, { code: 200 })
+    const code = 200
+
+    log({
+      who: "website/handle",
+      message: "response",
+      pathname,
+      code,
+      "content-type": content.type,
+    })
+
+    responseSetStatus(response, { code })
     responseSetHeaders(response, {
       "content-type": content.type,
       "content-encoding": compressionMethod,

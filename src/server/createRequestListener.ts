@@ -35,7 +35,8 @@ export function createRequestListener<Context>(options: {
       }
 
       if (body === undefined) {
-        responseSetStatus(response, { code: 204 })
+        const code = 204
+        responseSetStatus(response, { code })
         responseSetHeaders(response, {
           "content-type": "application/json",
           "access-control-allow-origin": "*",
@@ -43,7 +44,8 @@ export function createRequestListener<Context>(options: {
         })
         response.end()
       } else if (body instanceof Buffer) {
-        responseSetStatus(response, { code: 200 })
+        const code = 200
+        responseSetStatus(response, { code })
         responseSetHeaders(response, {
           "content-type": "text/plain",
           "access-control-allow-origin": "*",
@@ -52,7 +54,8 @@ export function createRequestListener<Context>(options: {
         response.write(body)
         response.end()
       } else {
-        responseSetStatus(response, { code: 200 })
+        const code = 200
+        responseSetStatus(response, { code })
         responseSetHeaders(response, {
           "content-type": "application/json",
           "access-control-allow-origin": "*",
@@ -73,6 +76,7 @@ export function createRequestListener<Context>(options: {
       }
 
       const message = error instanceof Error ? error.message : "Unknown error"
+
       if (error instanceof Unauthorized) {
         responseSetStatus(response, { code: 401, message })
         responseSetHeaders(response, headers)

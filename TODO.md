@@ -1,8 +1,5 @@
-# logging
-
-[website] fix http logging
-
-[subdomain] fix http logging
+extract `RequestListener` & `RequestHandler`
+be able to config request logging
 
 # subdomain
 
