@@ -1,7 +1,5 @@
 # subdomain
 
-[subdomain] `Context` has `directory: string` and `ServerOptions`
+[subdomain] `handle` -- do subdomain-based routing for many websites
 
-- we need to read `WebsiteConfig` at runtime
-
-[subdomain] `startSubdomainServer` -- do subdomain-based routing for many websites
+[subdomain] we need to read `WebsiteConfig` at runtime
