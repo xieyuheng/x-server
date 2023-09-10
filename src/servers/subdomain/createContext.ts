@@ -18,5 +18,5 @@ export async function createContext(options: ContextOptions): Promise<Context> {
     }
   }
 
-  throw new Error(`[createContext] path is a directory: ${path}`)
+  throw new Error(`[subdomain/createContext] I expect path to be a directory: ${path}`)
 }

@@ -58,7 +58,7 @@ export async function handle(
 
   throw new Error(
     [
-      `[handleServe] unhandled http request`,
+      `[website/handle] unhandled http request`,
       `  method: ${request.method}`,
     ].join("\n"),
   )
