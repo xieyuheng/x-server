@@ -1,9 +1,11 @@
-`servers/subdomain`
+`logger` should be pert of `ServerOptions`
 
-extract `startSubdomainServer`
-
-# serve many
+# subdomain
 
 `ServeManyCommand` setup command
 
-`handleServeMany` -- subdomain based routing for many websites
+[subdomain] `startSubdomainServer` -- subdomain based routing for many websites
+
+[subdomain] `Context` has `directory: string` and `ServerOptions`
+
+- we need to read `WebsiteConfig` at runtime

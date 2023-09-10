@@ -1,12 +1,12 @@
 import type { RequestListener } from "../server/createRequestListener"
 import { findPort } from "../utils/node/findPort"
 import { serverListen } from "../utils/node/serverListen"
-import { StartServerOptions } from "./StartServerOptions"
+import { ServerOptions } from "./ServerOptions"
 import { createServer } from "./createServer"
 
 export async function startServer(
   requestListener: RequestListener,
-  options: StartServerOptions,
+  options: ServerOptions,
 ): Promise<{ url: URL }> {
   const { scheme, server } = await createServer(requestListener, options)
 

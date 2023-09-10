@@ -1,10 +1,7 @@
 import { Schema, ty } from "@xieyuheng/ty"
-import {
-  StartServerOptions,
-  StartServerOptionsSchema,
-} from "../server/StartServerOptions"
+import { ServerOptions, ServerOptionsSchema } from "../server/ServerOptions"
 
-export type WebsiteConfig = StartServerOptions & {
+export type WebsiteConfig = ServerOptions & {
   cors?: boolean
   rewriteNotFoundTo?: string
   cacheControlPatterns: Record<string, string>
@@ -12,7 +9,7 @@ export type WebsiteConfig = StartServerOptions & {
 }
 
 export const WebsiteConfigSchema: Schema<WebsiteConfig> = ty.intersection(
-  StartServerOptionsSchema,
+  ServerOptionsSchema,
   ty.object({
     cors: ty.optional(ty.boolean()),
     rewriteNotFoundTo: ty.optional(ty.string()),
