@@ -1,8 +1,10 @@
 import type Http from "node:http"
 
-export function requestURL(request: Http.IncomingMessage): URL {
+export function requestURLAlwaysWithHttpProtocol(
+  request: Http.IncomingMessage,
+): URL {
   if (request.url === undefined) {
-    throw new Error("[requestURL] expect request.url")
+    throw new Error("[requestURLAlwaysWithHttpProtocol] expect request.url")
   }
 
   const protocol = "http"

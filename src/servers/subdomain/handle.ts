@@ -2,7 +2,7 @@ import type { Buffer } from "node:buffer"
 import type Http from "node:http"
 import { normalize } from "node:path"
 import type { Json } from "../../utils/Json"
-import { requestURL } from "../../utils/node/requestURL"
+import { requestURLAlwaysWithHttpProtocol } from "../../utils/node/requestURLAlwaysWithHttpProtocol"
 import type { Context } from "./Context"
 
 export async function handle(
@@ -16,7 +16,7 @@ export async function handle(
   //   }
   // }
 
-  const url = requestURL(request)
+  const url = requestURLAlwaysWithHttpProtocol(request)
 
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(url.pathname.slice(1)))

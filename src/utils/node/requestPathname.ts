@@ -1,6 +1,6 @@
 import type Http from "node:http"
-import { requestURL } from "./requestURL"
+import { requestURLAlwaysWithHttpProtocol } from "./requestURLAlwaysWithHttpProtocol"
 
 export function requestPathname(request: Http.IncomingMessage): string {
-  return requestURL(request).pathname
+  return requestURLAlwaysWithHttpProtocol(request).pathname
 }
