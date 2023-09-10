@@ -1,3 +1,4 @@
+import { serverOptionsFromCommandLineOptions } from "../server/serverOptionsFromCommandLineOptions"
 import { WebsiteConfig } from "./WebsiteConfig"
 
 export function websiteConfigFromCommandLineOptions(options: {
@@ -10,25 +11,13 @@ export function websiteConfigFromCommandLineOptions(options: {
   "cache-control-pattern"?: string | Array<string>
   logger?: string
 }): WebsiteConfig {
+  const server = serverOptionsFromCommandLineOptions(options)
   const cacheControlPatterns = createCacheControlPatterns(
     options["cache-control-pattern"],
   )
 
-  const tls =
-    options["tls-cert"] && options["tls-key"]
-      ? {
-          cert: options["tls-cert"],
-          key: options["tls-key"],
-        }
-      : undefined
-
   return {
-    server: {
-      hostname: options["hostname"],
-      port: options["port"],
-      tls,
-      logger: options["logger"],
-    },
+    server,
     cors: options["cors"],
     rewriteNotFoundTo: options["rewrite-not-found-to"],
     cacheControlPatterns,
