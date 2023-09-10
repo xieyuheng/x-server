@@ -17,9 +17,8 @@ export async function handle(
   //   }
   // }
 
-  const pathname = requestPathname(request)
   const subdomain = requestSubdomain(request, ctx.domain)
-
+  const pathname = requestPathname(request)
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(pathname.slice(1)))
 
