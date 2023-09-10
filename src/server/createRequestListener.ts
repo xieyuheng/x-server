@@ -81,7 +81,6 @@ export function createRequestListener<Context>(options: {
           url: request.url,
         })
 
-
       if (error instanceof Unauthorized) {
         responseSetStatus(response, { code: 401, message })
         responseSetHeaders(response, headers)

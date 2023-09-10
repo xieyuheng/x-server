@@ -96,8 +96,31 @@ Where `/websites/website.json`:
     "tls": {
       "cert": "/etc/letsencrypt/live/readonly.link/fullchain.pem",
       "key": "/etc/letsencrypt/live/readonly.link/privkey.pem"
+    },
+    "logger": {
+      "name": "pretty-line",
+      "disableRequestLogging": true
     }
   }
+}
+```
+
+The `LoggerOptions` used above is:
+
+```ts
+export type LoggerName = "json" | "silent" | "pretty" | "pretty-line"
+
+export type LoggerOptions = {
+  name: LoggerName
+  disableRequestLogging?: boolean
+}
+```
+
+The default `LoggerOptions` is:
+
+```json
+{
+  "name": "pretty-line"
 }
 ```
 
