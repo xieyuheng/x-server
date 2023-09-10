@@ -7,6 +7,7 @@ import { RevisionMismatch } from "../errors/RevisionMismatch"
 import { Unauthorized } from "../errors/Unauthorized"
 import { Unprocessable } from "../errors/Unprocessable"
 import type { Json } from "../utils/Json"
+import { log } from "../utils/log"
 import { responseSetHeaders } from "../utils/node/responseSetHeaders"
 import { responseSetStatus } from "../utils/node/responseSetStatus"
 
@@ -55,6 +56,7 @@ export function createRequestListener<Context>(options: {
         response.end()
       } else {
         const code = 200
+
         responseSetStatus(response, { code })
         responseSetHeaders(response, {
           "content-type": "application/json",
@@ -76,6 +78,14 @@ export function createRequestListener<Context>(options: {
       }
 
       const message = error instanceof Error ? error.message : "Unknown error"
+
+      log({
+        who: "RequestListener",
+        kind: "Error",
+        message,
+        host: request.headers.host,
+        url: request.url,
+      })
 
       if (error instanceof Unauthorized) {
         responseSetStatus(response, { code: 401, message })
