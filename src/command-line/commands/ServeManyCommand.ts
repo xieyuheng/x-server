@@ -23,7 +23,7 @@ type Opts = {
 export class ServeManyCommand extends Command<Args> {
   name = "serve-many"
 
-  description = "Serve many websites in a directory, using subdomain-based routing"
+  description = "Serve many websites using subdomain-based routing"
 
   args = { path: ty.string() }
   opts = {
