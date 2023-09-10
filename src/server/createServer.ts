@@ -1,7 +1,6 @@
 import fs from "node:fs"
-import Http from "node:http"
+import Http, { RequestListener } from "node:http"
 import Https from "node:https"
-import type { RequestListener } from "../server/createRequestListener"
 import { TlsOptions } from "./TlsOptions"
 
 type SreateServerOptions = {

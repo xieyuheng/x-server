@@ -1,4 +1,4 @@
-extract `RequestListener` & `RequestHandler`
+extract `RequestHandler`
 be able to config request logging
 
 # subdomain

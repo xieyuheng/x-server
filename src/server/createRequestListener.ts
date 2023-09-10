@@ -10,11 +10,7 @@ import type { Json } from "../utils/Json"
 import { log } from "../utils/log"
 import { responseSetHeaders } from "../utils/node/responseSetHeaders"
 import { responseSetStatus } from "../utils/node/responseSetStatus"
-
-export type RequestListener = (
-  request: Http.IncomingMessage,
-  response: Http.ServerResponse,
-) => Promise<void>
+import { RequestListener } from "./RequestListener"
 
 export type HandleRequest<Context> = (
   ctx: Context,
