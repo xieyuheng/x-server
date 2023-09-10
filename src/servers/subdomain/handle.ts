@@ -1,9 +1,18 @@
 import type { Buffer } from "node:buffer"
 import type Http from "node:http"
-import { normalize } from "node:path"
+import { normalize, resolve } from "node:path"
+import { handlePreflight } from "../../server/handlePreflight"
 import type { Json } from "../../utils/Json"
+import { compress } from "../../utils/node/compress"
+import { requestCompressionMethod } from "../../utils/node/requestCompressionMethod"
 import { requestPathname } from "../../utils/node/requestPathname"
 import { requestSubdomain } from "../../utils/node/requestSubdomain"
+import { responseSetHeaders } from "../../utils/node/responseSetHeaders"
+import { responseSetStatus } from "../../utils/node/responseSetStatus"
+import { readContentWithRewrite } from "../../website/readContentWithRewrite"
+import { readWebsiteConfigFile } from "../../website/readWebsiteConfigFile"
+import { responseSetCacheControlHeaders } from "../../website/responseSetCacheControlHeaders"
+import { responseSetCorsHeaders } from "../../website/responseSetCorsHeaders"
 import type { Context } from "./Context"
 
 export async function handle(
@@ -11,41 +20,47 @@ export async function handle(
   request: Http.IncomingMessage,
   response: Http.ServerResponse,
 ): Promise<Json | Buffer | void> {
-  // if (ctx.config.cors) {
-  //   if (request.method === "OPTIONS") {
-  //     return handlePreflight(request, response)
-  //   }
-  // }
-
   const subdomain = requestSubdomain(request, ctx.domain)
+
+  const subdirectory = normalize(resolve(ctx.directory, subdomain))
+  const config = await readWebsiteConfigFile(`${subdirectory}/website.json`)
+
+  if (config.cors) {
+    if (request.method === "OPTIONS") {
+      return handlePreflight(request, response)
+    }
+  }
+
   const pathname = requestPathname(request)
+
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(pathname.slice(1)))
 
   if (request.method === "GET") {
-    // responseSetCorsHeaders(ctx, response)
-    // responseSetCacheControlHeaders(ctx, response, path)
+    responseSetCorsHeaders(config, response)
+    responseSetCacheControlHeaders(config, response, path)
 
-    // const content = await readContentWithRewrite(ctx, path)
-    // if (content === undefined) {
-    //   responseSetStatus(response, { code: 404 })
-    //   responseSetHeaders(response, {
-    //     connection: "close",
-    //   })
-    //   response.end()
-    //   return
-    // }
+    const content = await readContentWithRewrite(subdirectory, config, path)
 
-    // const compressionMethod = requestCompressionMethod(request)
-    // const buffer = await compress(compressionMethod, content.buffer)
+    if (content === undefined) {
+      responseSetStatus(response, { code: 404 })
+      responseSetHeaders(response, {
+        connection: "close",
+      })
+      response.end()
+      return
+    }
 
-    // responseSetStatus(response, { code: 200 })
-    // responseSetHeaders(response, {
-    //   "content-type": content.type,
-    //   "content-encoding": compressionMethod,
-    //   connection: "close",
-    // })
-    // response.end(buffer)
+    const compressionMethod = requestCompressionMethod(request)
+    const buffer = await compress(compressionMethod, content.buffer)
+
+    responseSetStatus(response, { code: 200 })
+    responseSetHeaders(response, {
+      "content-type": content.type,
+      "content-encoding": compressionMethod,
+      connection: "close",
+    })
+    response.end(buffer)
     return
   }
 

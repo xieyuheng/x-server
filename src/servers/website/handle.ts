@@ -18,13 +18,16 @@ export async function handle(
   request: Http.IncomingMessage,
   response: Http.ServerResponse,
 ): Promise<Json | Buffer | void> {
+
   if (ctx.config.cors) {
     if (request.method === "OPTIONS") {
       return handlePreflight(request, response)
     }
   }
 
+
   const pathname = requestPathname(request)
+
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(pathname.slice(1)))
 
