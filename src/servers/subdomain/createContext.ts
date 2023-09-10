@@ -1,16 +1,17 @@
 import { resolve } from "node:path"
-import { ServerOptions } from "../../server/ServerOptions"
 import { pathIsDirectory } from "../../utils/node/pathIsDirectory"
+import { WebsiteConfig } from "../../website/WebsiteConfig"
 import { Context } from "./Context"
 
 type ContextOptions = {
   path: string
-  server: ServerOptions
+  rootConfig: WebsiteConfig
 }
 
 export async function createContext(options: ContextOptions): Promise<Context> {
-  const { path, server } = options
-  const hostname = server.hostname
+  const { path, rootConfig } = options
+
+  const hostname = rootConfig?.server?.hostname
   if (hostname === undefined) {
     throw new Error(
       `[subdomain/createContext] I expect server.hostname to be given.`,
@@ -21,7 +22,7 @@ export async function createContext(options: ContextOptions): Promise<Context> {
     return {
       domain: hostname,
       directory: resolve(path),
-      server,
+      rootConfig,
     }
   }
 

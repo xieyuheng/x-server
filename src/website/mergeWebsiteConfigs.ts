@@ -19,7 +19,7 @@ function mergeTwoWebsiteConfigs(
 ): WebsiteConfig {
   const cacheControlPatterns = {
     ...left.cacheControlPatterns,
-    ...objectRemoveUndefined(right.cacheControlPatterns),
+    ...objectRemoveUndefined(right.cacheControlPatterns || {}),
   } as Record<string, string>
 
   const server = {

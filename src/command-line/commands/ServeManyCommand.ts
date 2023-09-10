@@ -1,8 +1,12 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
-import { serverOptionsFromCommandLineOptions } from "../../server/serverOptionsFromCommandLineOptions"
+import { dirname } from "node:path"
 import { startSubdomainServer } from "../../servers/subdomain/startSubdomainServer"
 import { changeLogger } from "../../utils/log"
+import { pathIsFile } from "../../utils/node/pathIsFile"
+import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
+import { readWebsiteConfigFile } from "../../website/readWebsiteConfigFile"
+import { websiteConfigFromCommandLineOptions } from "../../website/websiteConfigFromCommandLineOptions"
 
 type Args = { path: string }
 type Opts = {
@@ -53,7 +57,18 @@ export class ServeManyCommand extends Command<Args> {
       changeLogger(argv.logger)
     }
 
-    const serverOptions = serverOptionsFromCommandLineOptions(argv)
-    await startSubdomainServer(argv.path, serverOptions)
+    if (await pathIsFile(argv.path)) {
+      const config = mergeWebsiteConfigs([
+        await readWebsiteConfigFile(argv.path),
+        websiteConfigFromCommandLineOptions(argv),
+      ])
+
+      const path = dirname(argv.path)
+      await startSubdomainServer(path, config)
+    } else {
+      const config = websiteConfigFromCommandLineOptions(argv)
+      const { path } = argv
+      await startSubdomainServer(path, config)
+    }
   }
 }

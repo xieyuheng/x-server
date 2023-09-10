@@ -9,7 +9,9 @@ export function responseSetCacheControlHeaders(
   path: string,
 ): void {
   const cacheControlHeaders: Record<string, string> = {}
-  for (const [pattern, value] of Object.entries(config.cacheControlPatterns)) {
+  for (const [pattern, value] of Object.entries(
+    config.cacheControlPatterns || {},
+  )) {
     if (globMatch(pattern, path)) {
       cacheControlHeaders["cache-control"] = value
     }
