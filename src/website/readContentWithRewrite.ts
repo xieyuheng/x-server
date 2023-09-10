@@ -1,5 +1,6 @@
+import { Content } from "./Content"
 import { WebsiteConfig } from "./WebsiteConfig"
-import { Content, readContent } from "./readContent"
+import { readContent } from "./readContent"
 
 export async function readContentWithRewrite(
   directory: string,

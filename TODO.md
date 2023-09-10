@@ -1,5 +1,3 @@
-extract `Content`
-
 # subdomain
 
 [subdomain] `handle` -- do subdomain-based routing for many websites

@@ -1,15 +1,9 @@
-import type { Buffer } from "node:buffer"
 import fs from "node:fs"
 import { extname, normalize, resolve } from "node:path"
-import { Context } from "../servers/website/Context"
 import { contentTypeRecord } from "../utils/contentTypeRecord"
 import { pathIsDirectory } from "../utils/node/pathIsDirectory"
 import { pathIsFile } from "../utils/node/pathIsFile"
-
-export type Content = {
-  type: string
-  buffer: Buffer
-}
+import { Content } from "./Content"
 
 export async function readContent(
   directory: string,
