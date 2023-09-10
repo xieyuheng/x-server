@@ -7,5 +7,9 @@ export function requestURL(request: Http.IncomingMessage): URL {
 
   const protocol = "http"
 
+  // NOTE For https request, the `protocol` might be wrong,
+  //   this function should only be used to parse url,
+  //   we should no rely on the `protocol` of the resulting url.
+
   return new URL(request.url, `${protocol}://${request.headers.host}`)
 }
