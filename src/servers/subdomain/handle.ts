@@ -3,6 +3,7 @@ import type Http from "node:http"
 import { normalize } from "node:path"
 import type { Json } from "../../utils/Json"
 import { requestPathname } from "../../utils/node/requestPathname"
+import { requestSubdomain } from "../../utils/node/requestSubdomain"
 import type { Context } from "./Context"
 
 export async function handle(
@@ -17,6 +18,7 @@ export async function handle(
   // }
 
   const pathname = requestPathname(request)
+  const subdomain = requestSubdomain(request, ctx.domain)
 
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(pathname.slice(1)))
