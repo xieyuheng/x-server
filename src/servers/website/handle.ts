@@ -26,7 +26,7 @@ export async function handle(
 
   const url = requestURL(request)
 
-  // NOTE `decodeURIComponent` is necessary for space.
+  // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(url.pathname.slice(1)))
 
   if (request.method === "GET") {
