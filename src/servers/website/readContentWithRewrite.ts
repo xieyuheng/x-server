@@ -10,7 +10,7 @@ export async function readContentWithRewrite(
     return content
   }
 
-  if (ctx.rewriteNotFoundTo !== undefined) {
-    return await readContent(ctx, ctx.rewriteNotFoundTo)
+  if (ctx.config.rewriteNotFoundTo !== undefined) {
+    return await readContent(ctx, ctx.config.rewriteNotFoundTo)
   }
 }

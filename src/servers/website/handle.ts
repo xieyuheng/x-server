@@ -18,7 +18,7 @@ export async function handle(
   request: Http.IncomingMessage,
   response: Http.ServerResponse,
 ): Promise<Json | Buffer | void> {
-  if (ctx.cors) {
+  if (ctx.config.cors) {
     if (request.method === "OPTIONS") {
       return handlePreflight(request, response)
     }

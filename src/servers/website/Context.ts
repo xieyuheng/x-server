@@ -1,29 +1,24 @@
 import { resolve } from "node:path"
 import { pathIsDirectory } from "../../utils/node/pathIsDirectory"
+import { WebsiteConfig } from "../../website/WebsiteConfig"
 
 export type Context = {
   directory: string
-  rewriteNotFoundTo?: string
-  cacheControlPatterns: Record<string, string>
-  cors?: boolean
+  config: WebsiteConfig
 }
 
 type ContextOptions = {
   path: string
-  rewriteNotFoundTo?: string
-  cacheControlPatterns: Record<string, string>
-  cors?: boolean
+  config: WebsiteConfig
 }
 
 export async function createContext(options: ContextOptions): Promise<Context> {
-  const { path, rewriteNotFoundTo, cacheControlPatterns, cors } = options
+  const { path, config } = options
 
   if (await pathIsDirectory(path)) {
     return {
       directory: resolve(path),
-      rewriteNotFoundTo,
-      cacheControlPatterns,
-      cors,
+      config,
     }
   }
 

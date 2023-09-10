@@ -7,6 +7,6 @@ export function responseSetCorsHeaders(
   response: Http.ServerResponse,
 ): void {
   responseSetHeaders(response, {
-    "access-control-allow-origin": ctx.cors ? "*" : undefined,
+    "access-control-allow-origin": ctx.config.cors ? "*" : undefined,
   })
 }

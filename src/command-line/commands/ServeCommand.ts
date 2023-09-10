@@ -74,7 +74,7 @@ export class ServeCommand extends Command<Args> {
       log({ who, message: "create config", config })
 
       const path = dirname(argv.path)
-      const ctx = await createContext({ path, ...config })
+      const ctx = await createContext({ path, config })
 
       log({ who, message: "create context", ctx })
 
@@ -87,7 +87,7 @@ export class ServeCommand extends Command<Args> {
       log({ who, message: "creaet config", config })
 
       const { path } = argv
-      const ctx = await createContext({ path, ...config })
+      const ctx = await createContext({ path, config })
 
       log({ who, message: "create context", ctx })
 
