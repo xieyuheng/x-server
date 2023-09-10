@@ -5,7 +5,7 @@ export function serverOptionsFromCommandLineOptions(options: {
   port?: number
   "tls-cert"?: string
   "tls-key"?: string
-  logger?: string
+  "logger-name"?: string
 }): ServerOptions {
   const tls =
     options["tls-cert"] && options["tls-key"]
@@ -19,6 +19,8 @@ export function serverOptionsFromCommandLineOptions(options: {
     hostname: options["hostname"],
     port: options["port"],
     tls,
-    logger: options["logger"],
+    logger: options["logger-name"]
+      ? { name: options["logger-name"] }
+      : undefined,
   }
 }

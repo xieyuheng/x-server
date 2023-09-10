@@ -2,7 +2,7 @@ import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
 import { dirname } from "node:path"
 import { startWebsiteServer } from "../../servers/website/startWebsiteServer"
-import { changeLogger } from "../../utils/log"
+import { LoggerName, LoggerNameSchema, changeLogger } from "../../utils/log"
 import { pathIsFile } from "../../utils/node/pathIsFile"
 import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
 import { readWebsiteConfigFile } from "../../website/readWebsiteConfigFile"
@@ -17,7 +17,7 @@ type Opts = {
   cors?: boolean
   "rewrite-not-found-to"?: string
   "cache-control-pattern"?: string | Array<string>
-  logger?: string
+  "logger-name"?: LoggerName
 }
 
 export class ServeCommand extends Command<Args> {
@@ -36,7 +36,7 @@ export class ServeCommand extends Command<Args> {
     "cache-control-pattern": ty.optional(
       ty.union(ty.string(), ty.array(ty.string())),
     ),
-    logger: ty.optional(ty.string()),
+    "logger-name": ty.optional(LoggerNameSchema),
   }
 
   // prettier-ignore
@@ -56,8 +56,8 @@ export class ServeCommand extends Command<Args> {
   }
 
   async execute(argv: Args & Opts): Promise<void> {
-    if (argv.logger) {
-      changeLogger(argv.logger)
+    if (argv["logger-name"]) {
+      changeLogger(argv["logger-name"])
     }
 
     if (await pathIsFile(argv.path)) {
