@@ -1,10 +1,10 @@
 import type { Buffer } from "node:buffer"
 import fs from "node:fs"
 import { extname, normalize, resolve } from "node:path"
-import { contentTypeRecord } from "../../utils/contentTypeRecord"
-import { pathIsDirectory } from "../../utils/node/pathIsDirectory"
-import { pathIsFile } from "../../utils/node/pathIsFile"
-import type { Context } from "./Context"
+import { Context } from "../servers/website/Context"
+import { contentTypeRecord } from "../utils/contentTypeRecord"
+import { pathIsDirectory } from "../utils/node/pathIsDirectory"
+import { pathIsFile } from "../utils/node/pathIsFile"
 
 export type Content = {
   type: string
@@ -12,10 +12,10 @@ export type Content = {
 }
 
 export async function readContent(
-  ctx: Context,
+  directory: string,
   path: string,
 ): Promise<Content | undefined> {
-  const resolvedPath = normalize(resolve(ctx.directory, path))
+  const resolvedPath = normalize(resolve(directory, path))
 
   // NOTE We should not access path outside of given directory.
 
@@ -26,7 +26,7 @@ export async function readContent(
   //   "http://example.com/secret"
   // But we want to be absolutely sure about this.
 
-  if (!resolvedPath.startsWith(ctx.directory)) {
+  if (!resolvedPath.startsWith(directory)) {
     return undefined
   }
 

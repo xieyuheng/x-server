@@ -1,4 +1,4 @@
-[website] move helper functions to `website/` and only take `config: WebsiteConfig` instead of `ctx`
+extract `Content`
 
 # subdomain
 

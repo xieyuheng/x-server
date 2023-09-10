@@ -8,10 +8,10 @@ import { requestCompressionMethod } from "../../utils/node/requestCompressionMet
 import { requestPathname } from "../../utils/node/requestPathname"
 import { responseSetHeaders } from "../../utils/node/responseSetHeaders"
 import { responseSetStatus } from "../../utils/node/responseSetStatus"
+import { readContentWithRewrite } from "../../website/readContentWithRewrite"
+import { responseSetCacheControlHeaders } from "../../website/responseSetCacheControlHeaders"
+import { responseSetCorsHeaders } from "../../website/responseSetCorsHeaders"
 import type { Context } from "./Context"
-import { readContentWithRewrite } from "./readContentWithRewrite"
-import { responseSetCacheControlHeaders } from "./responseSetCacheControlHeaders"
-import { responseSetCorsHeaders } from "./responseSetCorsHeaders"
 
 export async function handle(
   ctx: Context,
@@ -29,10 +29,15 @@ export async function handle(
   const path = normalize(decodeURIComponent(pathname.slice(1)))
 
   if (request.method === "GET") {
-    responseSetCorsHeaders(ctx, response)
-    responseSetCacheControlHeaders(ctx, response, path)
+    responseSetCorsHeaders(ctx.config, response)
+    responseSetCacheControlHeaders(ctx.config, response, path)
 
-    const content = await readContentWithRewrite(ctx, path)
+    const content = await readContentWithRewrite(
+      ctx.directory,
+      ctx.config,
+      path,
+    )
+
     if (content === undefined) {
       responseSetStatus(response, { code: 404 })
       responseSetHeaders(response, {
