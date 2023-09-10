@@ -1,4 +1,5 @@
 import { serverOptionsFromCommandLineOptions } from "../server/serverOptionsFromCommandLineOptions"
+import { LoggerName } from "../utils/log"
 import { WebsiteConfig } from "./WebsiteConfig"
 
 export function websiteConfigFromCommandLineOptions(options: {
@@ -9,7 +10,7 @@ export function websiteConfigFromCommandLineOptions(options: {
   cors?: boolean
   "rewrite-not-found-to"?: string
   "cache-control-pattern"?: string | Array<string>
-  logger?: string
+  "logger-name"?: LoggerName
 }): WebsiteConfig {
   const server = serverOptionsFromCommandLineOptions(options)
   const cacheControlPatterns = createCacheControlPatterns(

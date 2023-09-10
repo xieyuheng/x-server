@@ -10,13 +10,17 @@ import { responseSetHeaders } from "../utils/node/responseSetHeaders"
 import { responseSetStatus } from "../utils/node/responseSetStatus"
 import { RequestHandler } from "./RequestHandler"
 import { RequestListener } from "./RequestListener"
+import { ServerOptions } from "./ServerOptions"
 
 export function createRequestListener<Context>(options: {
   ctx: Context
+  server: ServerOptions
   handle: RequestHandler<Context>
 }): RequestListener {
   const { ctx, handle } = options
   return async (request, response) => {
+    const withLog = !options.server.logger?.disableRequestLogging
+
     try {
       const body = await handle(ctx, request, response)
 
@@ -68,13 +72,15 @@ export function createRequestListener<Context>(options: {
 
       const message = error instanceof Error ? error.message : "Unknown error"
 
-      log({
-        who: "RequestListener",
-        kind: "Error",
-        message,
-        host: request.headers.host,
-        url: request.url,
-      })
+      if (withLog)
+        log({
+          who: "RequestListener",
+          kind: "Error",
+          message,
+          host: request.headers.host,
+          url: request.url,
+        })
+
 
       if (error instanceof Unauthorized) {
         responseSetStatus(response, { code: 401, message })

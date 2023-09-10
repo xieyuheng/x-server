@@ -1,11 +1,7 @@
 import fs from "node:fs"
 import Http, { RequestListener } from "node:http"
 import Https from "node:https"
-import { TlsOptions } from "./TlsOptions"
-
-type SreateServerOptions = {
-  tls?: TlsOptions
-}
+import { ServerOptions } from "./ServerOptions"
 
 type Result =
   | { scheme: "http"; server: Http.Server }
@@ -13,7 +9,7 @@ type Result =
 
 export async function createServer(
   requestListener: RequestListener,
-  options: SreateServerOptions,
+  options: ServerOptions,
 ): Promise<Result> {
   if (options.tls) {
     return {

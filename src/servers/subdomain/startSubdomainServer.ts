@@ -15,9 +15,9 @@ export async function startSubdomainServer(
 
   log({ who, message: "createContext", ctx })
 
-  const listener = createRequestListener({ ctx, handle })
-
-  const { url } = await startServer(listener, rootConfig?.server || {})
+  const server = rootConfig?.server || {}
+  const listener = createRequestListener({ ctx, handle, server })
+  const { url } = await startServer(listener, server)
 
   log({ who, message: "startServer", url: String(url) })
 }

@@ -22,6 +22,8 @@ export async function handle(
   request: Http.IncomingMessage,
   response: Http.ServerResponse,
 ): Promise<Json | Buffer | void> {
+  const withLog = !ctx.rootConfig.server?.logger?.disableRequestLogging
+
   const subdomain = requestSubdomain(request, ctx.domain)
 
   const subdirectory = normalize(resolve(ctx.directory, subdomain))
@@ -41,7 +43,7 @@ export async function handle(
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(pathname.slice(1)))
 
-  log({
+  if (withLog)  log({
     who: "subdomain/handle",
     message: "request",
     subdomain,
@@ -57,7 +59,7 @@ export async function handle(
     if (content === undefined) {
       const code = 404
 
-      log({
+  if (withLog)      log({
         who: "subdomain/handle",
         message: "response",
         subdomain,
@@ -78,7 +80,7 @@ export async function handle(
 
     const code = 200
 
-    log({
+  if (withLog)    log({
       who: "subdomain/handle",
       message: "response",
       subdomain,

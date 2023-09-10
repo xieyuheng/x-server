@@ -1,12 +1,12 @@
 import { Schema, ty } from "@xieyuheng/ty"
+import { LoggerName, LoggerNameSchema } from "../utils/log"
 
 export type LoggerOptions = {
-  name: string,
+  name: LoggerName
   disableRequestLogging?: boolean
 }
 
-
 export const LoggerOptionsSchema: Schema<LoggerOptions> = ty.object({
-  name: ty.string(),
-  disableRequestLogging: ty.optional(ty.boolean())
+  name: LoggerNameSchema,
+  disableRequestLogging: ty.optional(ty.boolean()),
 })
