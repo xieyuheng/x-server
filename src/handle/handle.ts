@@ -13,7 +13,7 @@ import { readContentWithRewrite } from "./readContentWithRewrite"
 import { responseSetCacheControlHeaders } from "./responseSetCacheControlHeaders"
 import { responseSetCorsHeaders } from "./responseSetCorsHeaders"
 
-export async function handleServe(
+export async function handle(
   ctx: Context,
   request: Http.IncomingMessage,
   response: Http.ServerResponse,

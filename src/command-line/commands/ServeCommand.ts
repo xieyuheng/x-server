@@ -2,7 +2,7 @@ import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
 import { dirname } from "node:path"
 import { createContext } from "../../handle/Context"
-import { handleServe } from "../../handle/handleServe"
+import { handle } from "../../handle/handle"
 import { createRequestListener } from "../../server/createRequestListener"
 import { startServer } from "../../server/startServer"
 import { changeLogger, log } from "../../utils/log"
@@ -66,40 +66,34 @@ export class ServeCommand extends Command<Args> {
     const who = this.name
 
     if (await pathIsFile(argv.path)) {
-      const websiteConfig = mergeWebsiteConfigs([
+      const config = mergeWebsiteConfigs([
         await readWebsiteConfigFile(argv.path),
         websiteConfigFromCommandLineOptions(argv),
       ])
 
-      log({ who, message: "create config", websiteConfig })
+      log({ who, message: "create config", config })
 
       const path = dirname(argv.path)
-      const ctx = await createContext({ path, ...websiteConfig })
+      const ctx = await createContext({ path, ...config })
 
       log({ who, message: "create context", ctx })
 
-      const { url } = await startServer(
-        createRequestListener({ ctx, handle: handleServe }),
-        websiteConfig,
-      )
-
+      const listener = createRequestListener({ ctx, handle })
+      const { url } = await startServer(listener, config)
       log({ who, message: "start server", url: String(url) })
     } else {
-      const websiteConfig = websiteConfigFromCommandLineOptions(argv)
+      const config = websiteConfigFromCommandLineOptions(argv)
 
-      log({ who, message: "creaet config", websiteConfig })
+      log({ who, message: "creaet config", config })
 
       const { path } = argv
-      const ctx = await createContext({ path, ...websiteConfig })
+      const ctx = await createContext({ path, ...config })
 
       log({ who, message: "create context", ctx })
 
-      const { url } = await startServer(
-        createRequestListener({ ctx, handle: handleServe }),
-        websiteConfig,
-      )
-
-      log({ who, message: "startServer", url: String(url) })
+      const listener = createRequestListener({ ctx, handle })
+      const { url } = await startServer(listener, config)
+      log({ who, message: "start server", url: String(url) })
     }
   }
 }
