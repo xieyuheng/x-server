@@ -10,7 +10,7 @@ import { requestSubdomain } from "../../utils/node/requestSubdomain"
 import { responseSetHeaders } from "../../utils/node/responseSetHeaders"
 import { responseSetStatus } from "../../utils/node/responseSetStatus"
 import { readContentWithRewrite } from "../../website/readContentWithRewrite"
-import { readWebsiteConfigFile } from "../../website/readWebsiteConfigFile"
+import { readWebsiteConfigFileOrDefault } from "../../website/readWebsiteConfigFileOrDefault"
 import { responseSetCacheControlHeaders } from "../../website/responseSetCacheControlHeaders"
 import { responseSetCorsHeaders } from "../../website/responseSetCorsHeaders"
 import type { Context } from "./Context"
@@ -23,7 +23,9 @@ export async function handle(
   const subdomain = requestSubdomain(request, ctx.domain)
 
   const subdirectory = normalize(resolve(ctx.directory, subdomain))
-  const config = await readWebsiteConfigFile(`${subdirectory}/website.json`)
+  const config = await readWebsiteConfigFileOrDefault(
+    `${subdirectory}/website.json`,
+  )
 
   if (config.cors) {
     if (request.method === "OPTIONS") {
