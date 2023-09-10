@@ -68,13 +68,48 @@ Where `/websites/readonlylink/website.json`:
 
 Serve many websites in a directory, using subdomain-based routing:
 
-- Each website might have it's own `website.json` config file.
+- Each website might have it's own `website.json` config file,
+- The `server` option of config file in subdirectory will be ignored.
+- the `hostname` option is required.
 
-```
+```sh
 website-server serve-many /websites \
+  --hostname localhost \
   --port 443 \
   --tls-cert /etc/letsencrypt/live/fidb.app/fullchain.pem \
   --tls-key /etc/letsencrypt/live/fidb.app/privkey.pem
+```
+
+Serve many with base `website.json` config file:
+
+```sh
+website-server serve-many /websites/website.json
+```
+
+Where `/websites/website.json`:
+
+```json
+{
+  "server": {
+    "hostname": "localhost",
+    "port": 443,
+    "tls": {
+      "cert": "/etc/letsencrypt/live/readonly.link/fullchain.pem",
+      "key": "/etc/letsencrypt/live/readonly.link/privkey.pem"
+    }
+  }
+}
+```
+
+On Linux, to test `website-server serve-many` locally,
+we can add subdomains to `localhost` by editing `/etc/hosts`.
+
+For examples:
+
+```
+127.0.1.1 readonlylink.localhost
+127.0.1.1 pomodoro.localhost
+...
 ```
 
 ## Development
