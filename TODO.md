@@ -1,5 +1,3 @@
-move `handle/*` to `servers/website/`
-
 `Context` has `config`
 
 extract `startWebsiteServer`

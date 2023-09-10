@@ -1,5 +1,5 @@
 import type Http from "node:http"
-import { responseSetHeaders } from "../utils/node/responseSetHeaders"
+import { responseSetHeaders } from "../../utils/node/responseSetHeaders"
 import type { Context } from "./Context"
 
 export function responseSetCorsHeaders(

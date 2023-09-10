@@ -1,5 +1,5 @@
 import { resolve } from "node:path"
-import { pathIsDirectory } from "../utils/node/pathIsDirectory"
+import { pathIsDirectory } from "../../utils/node/pathIsDirectory"
 
 export type Context = {
   directory: string
