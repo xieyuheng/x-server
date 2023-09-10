@@ -1,8 +1,9 @@
 import { colors } from "./colors"
 import { formatTime } from "./formatDate"
+import { indent } from "./indent"
 import type { LogOptions } from "./LogOptions"
 
-export function logPretterLine(options: LogOptions): void {
+export function logPretty(options: LogOptions): void {
   const { kind, who, elapse, message } = options
 
   let s = ""
@@ -17,20 +18,18 @@ export function logPretterLine(options: LogOptions): void {
     s += colors.blue(formatWho(who)) + " "
   }
 
-  if (message) s += colors.bold(`${message} `)
-  if (elapse !== undefined) s += formatElapse(elapse)
+  if (message) s += `${message}`
+  if (elapse !== undefined) s += " " + formatElapse(elapse)
 
-  const properties = Object.fromEntries(
-    Object.entries(options).filter(
-      ([key, value]) =>
-        value !== undefined &&
-        !["who", "kind", "message", "elapse"].includes(key),
-    ),
-  )
+  s += "\n"
 
-  if (Object.keys(properties).length > 0) {
-    s += "-- "
-    s += JSON.stringify(properties)
+  for (const [key, value] of Object.entries(options)) {
+    if (!["who", "kind", "message", "elapse"].includes(key)) {
+      if (value !== undefined) {
+        s += formatProperty(key, value)
+        s += "\n"
+      }
+    }
   }
 
   console.log(s.trim())
@@ -47,4 +46,11 @@ function formatNow(): string {
 
 function formatElapse(elapse: number): string {
   return colors.yellow(`<${elapse}ms>`)
+}
+
+function formatProperty(key: string, value: any): string {
+  const k = colors.italic(colors.yellow(key))
+  const j = JSON.stringify(value, null, 2)
+  const v = indent(j, "  ").trim()
+  return `  ${k}: ${v}`
 }

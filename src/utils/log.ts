@@ -1,19 +1,19 @@
-import { logJson } from "./logJson"
 import type { LogOptions } from "./LogOptions"
-import { logPretter } from "./logPretter"
-import { logPretterLine } from "./logPretterLine"
+import { logJson } from "./logJson"
+import { logPretty } from "./logPretty"
+import { logPrettyLine } from "./logPrettyLine"
 
-let logger: string = "prettier-line"
+let logger: string = "pretty-line"
 
 export function log(options: LogOptions): void {
   if (logger === "json") {
     logJson(options)
   } else if (logger === "silent") {
     //
-  } else if (logger === "prettier") {
-    logPretter(options)
-  } else if (logger === "prettier-line") {
-    logPretterLine(options)
+  } else if (logger === "pretty") {
+    logPretty(options)
+  } else if (logger === "pretty-line") {
+    logPrettyLine(options)
   }
 }
 
