@@ -1,5 +1,3 @@
-`logger` should be pert of `ServerOptions`
-
 # subdomain
 
 `ServeManyCommand` setup command
