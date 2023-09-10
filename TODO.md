@@ -1,5 +1,3 @@
-extract `startWebsiteServer`
-
 `servers/subdomain`
 
 extract `startSubdomainServer`

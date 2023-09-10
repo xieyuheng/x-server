@@ -1,11 +1,8 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
 import { dirname } from "node:path"
-import { createRequestListener } from "../../server/createRequestListener"
-import { startServer } from "../../server/startServer"
-import { createContext } from "../../servers/website/Context"
-import { handle } from "../../servers/website/handle"
-import { changeLogger, log } from "../../utils/log"
+import { startWebsiteServer } from "../../servers/website/startWebsiteServer"
+import { changeLogger } from "../../utils/log"
 import { pathIsFile } from "../../utils/node/pathIsFile"
 import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
 import { readWebsiteConfigFile } from "../../website/readWebsiteConfigFile"
@@ -63,37 +60,17 @@ export class ServeCommand extends Command<Args> {
       changeLogger(argv.logger)
     }
 
-    const who = this.name
-
     if (await pathIsFile(argv.path)) {
       const config = mergeWebsiteConfigs([
         await readWebsiteConfigFile(argv.path),
         websiteConfigFromCommandLineOptions(argv),
       ])
-
-      log({ who, message: "create config", config })
-
       const path = dirname(argv.path)
-      const ctx = await createContext({ path, config })
-
-      log({ who, message: "create context", ctx })
-
-      const listener = createRequestListener({ ctx, handle })
-      const { url } = await startServer(listener, config)
-      log({ who, message: "start server", url: String(url) })
+      await startWebsiteServer(path, config)
     } else {
       const config = websiteConfigFromCommandLineOptions(argv)
-
-      log({ who, message: "creaet config", config })
-
       const { path } = argv
-      const ctx = await createContext({ path, config })
-
-      log({ who, message: "create context", ctx })
-
-      const listener = createRequestListener({ ctx, handle })
-      const { url } = await startServer(listener, config)
-      log({ who, message: "start server", url: String(url) })
+      await startWebsiteServer(path, config)
     }
   }
 }
