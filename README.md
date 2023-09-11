@@ -135,6 +135,18 @@ For examples:
 ...
 ```
 
+### Using `.domain-map/` with `serve-many`
+
+When doing subdomain-based routing,
+we can also support custom domain for a subdomain,
+by adding adding a file `.domain-map/<custom-domain>`,
+where the file name is the custom domain,
+and the file content is the subdomain.
+
+You can edit the DNS record of your custom domain,
+to point to the full subdomain.
+And update `.domain-map/` on your server to support it.
+
 ## Development
 
 ```sh

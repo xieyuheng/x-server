@@ -1,6 +1,6 @@
 # subdomain
 
-[subdomain] support `domain-map/` -- list of files
+[subdomain] support `.domain-map/` -- list of files
 
 - file name domain, file content subdirectory
 
