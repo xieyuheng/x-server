@@ -1,12 +1,9 @@
 import type Http from "node:http"
-import { requestURLAlwaysWithHttpProtocol } from "./requestURLAlwaysWithHttpProtocol"
+import { requestHostname } from "./requestHostname"
 
-export function requestBasedomain(
-  request: Http.IncomingMessage,
-): string {
-  const url = requestURLAlwaysWithHttpProtocol(request)
-
-  const [subdomain, ...rest] = url.hostname.split(".")
+export function requestBasedomain(request: Http.IncomingMessage): string {
+  const hostname = requestHostname(request)
+  const [subdomain, ...rest] = hostname.split(".")
   const basedomain = rest.join(".")
 
   return subdomain

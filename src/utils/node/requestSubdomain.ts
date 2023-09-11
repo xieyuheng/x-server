@@ -1,13 +1,12 @@
 import type Http from "node:http"
-import { requestURLAlwaysWithHttpProtocol } from "./requestURLAlwaysWithHttpProtocol"
+import { requestHostname } from "./requestHostname"
 
 export function requestSubdomain(
   request: Http.IncomingMessage,
   domain: string,
 ): string {
-  const url = requestURLAlwaysWithHttpProtocol(request)
-
-  const [subdomain, ...rest] = url.hostname.split(".")
+  const hostname = requestHostname(request)
+  const [subdomain, ...rest] = hostname.split(".")
   const basedomain = rest.join(".")
 
   if (basedomain !== domain) {

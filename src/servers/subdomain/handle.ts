@@ -2,10 +2,13 @@ import type { Buffer } from "node:buffer"
 import type Http from "node:http"
 import { normalize, resolve } from "node:path"
 import { handlePreflight } from "../../server/handlePreflight"
+import { findSubdomain } from "../../subdomain/findSubdomain"
 import type { Json } from "../../utils/Json"
 import { log } from "../../utils/log"
 import { compress } from "../../utils/node/compress"
+import { requestBasedomain } from "../../utils/node/requestBasedomain"
 import { requestCompressionMethod } from "../../utils/node/requestCompressionMethod"
+import { requestHostname } from "../../utils/node/requestHostname"
 import { requestPathname } from "../../utils/node/requestPathname"
 import { requestSubdomain } from "../../utils/node/requestSubdomain"
 import { responseSetHeaders } from "../../utils/node/responseSetHeaders"
@@ -22,7 +25,35 @@ export async function handle(
   request: Http.IncomingMessage,
   response: Http.ServerResponse,
 ): Promise<Json | Buffer | void> {
-  const subdomain = requestSubdomain(request, ctx.domain)
+  const basedomain = requestBasedomain(request)
+  const pathname = requestPathname(request)
+
+  const subdomain =
+    basedomain === ctx.domain
+      ? requestSubdomain(request, ctx.domain)
+      : await findSubdomain(ctx.directory, requestHostname(request))
+
+  if (subdomain === undefined) {
+    const code = 404
+
+    const withLog = !ctx.rootConfig.server?.logger?.disableRequestLogging
+
+    if (withLog)
+      log({
+        who: "subdomain/handle",
+        message: "response",
+        subdomain,
+        pathname,
+        code,
+      })
+
+    responseSetStatus(response, { code })
+    responseSetHeaders(response, {
+      connection: "close",
+    })
+    response.end()
+    return
+  }
 
   const subdirectory = normalize(resolve(ctx.directory, subdomain))
   const config = mergeWebsiteConfigs([
@@ -37,8 +68,6 @@ export async function handle(
       return handlePreflight(request, response)
     }
   }
-
-  const pathname = requestPathname(request)
 
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(pathname.slice(1)))
