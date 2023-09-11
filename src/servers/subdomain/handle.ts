@@ -43,6 +43,8 @@ export async function handle(
         who: "subdomain/handle",
         message: "response",
         subdomain,
+        hostname: ctx.domain,
+        basedomain,
         pathname,
         code,
       })
