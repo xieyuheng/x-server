@@ -7,19 +7,20 @@ export function requestSubdomain(
 ): string {
   const url = requestURLAlwaysWithHttpProtocol(request)
 
-  const [head, ...rest] = url.hostname.split(".")
-  const requestedDomain = rest.join(".")
+  const [subdomain, ...rest] = url.hostname.split(".")
+  const basedomain = rest.join(".")
 
-  if (requestedDomain !== domain) {
+  if (basedomain !== domain) {
     throw new Error(
       [
-        `[requestSubdomain] I domain mismatch.`,
+        `[requestSubdomain] I found basedomain mismatch.`,
         ``,
-        `  expected domain: ${domain}`,
-        `  requested domain: ${requestedDomain}`,
+        `  expected basedomain: ${domain}`,
+        `  requested basedomain: ${basedomain}`,
+        `  subdomain: ${subdomain}`,
       ].join("\n"),
     )
   }
 
-  return head
+  return subdomain
 }
