@@ -1,13 +1,13 @@
 {
-  "name": "x-server",
+  "name": "@xieyuheng/x-server",
   "version": "0.0.4",
-  "repository": "github:fidb-official/website-server",
+  "repository": "github:xieyuheng/x-server",
   "main": "./lib/index.js",
   "files": [
     "lib"
   ],
   "bin": {
-    "website-server": "bin/website-server.js"
+    "x-server": "bin/x-server.js"
   },
   "scripts": {
     "build": "rm -rf lib; tsc",

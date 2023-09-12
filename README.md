@@ -1,4 +1,4 @@
-# Website Server
+# X Server
 
 A website server that supports serving many websites by subdomain-based routing.
 
@@ -9,19 +9,19 @@ A website server that supports serving many websites by subdomain-based routing.
 Install it by the following command:
 
 ```sh
-npm install -g website-server
+npm install -g @xieyuheng/x-server
 ```
 
-The command line program is called `website-server`.
+The command line program is called `x-server`.
 
 ## Examples
 
-### `website-server serve`
+### `x-server serve`
 
 Serve a single-page-app using `http` with an available port (starting from 8080):
 
 ```sh
-website-server serve /websites/pomodoro \
+x-server serve /websites/pomodoro \
   --cors \
   --rewrite-not-found-to index.html \
   --cache-control-pattern 'assets/**: max-age=31536000'
@@ -30,7 +30,7 @@ website-server serve /websites/pomodoro \
 Serve a single-page-app using `https` with a given port:
 
 ```sh
-website-server serve /websites/readonlylink \
+x-server serve /websites/readonlylink \
   --cors \
   --port 443 \
   --rewrite-not-found-to index.html \
@@ -42,7 +42,7 @@ website-server serve /websites/readonlylink \
 Serve a single-page-app using `https` with a `website.json` config file:
 
 ```sh
-website-server serve /websites/readonlylink/website.json
+x-server serve /websites/readonlylink/website.json
 ```
 
 Where `/websites/readonlylink/website.json`:
@@ -64,7 +64,7 @@ Where `/websites/readonlylink/website.json`:
 }
 ```
 
-### `website-server serve-many`
+### `x-server serve-many`
 
 Serve many websites in a directory, using subdomain-based routing:
 
@@ -73,7 +73,7 @@ Serve many websites in a directory, using subdomain-based routing:
 - the `hostname` option is required.
 
 ```sh
-website-server serve-many /websites \
+x-server serve-many /websites \
   --hostname localhost \
   --port 443 \
   --tls-cert /etc/letsencrypt/live/fidb.app/fullchain.pem \
@@ -83,7 +83,7 @@ website-server serve-many /websites \
 Serve many with base `website.json` config file:
 
 ```sh
-website-server serve-many /websites/website.json
+x-server serve-many /websites/website.json
 ```
 
 Where `/websites/website.json`:
@@ -124,7 +124,7 @@ The default `LoggerOptions` is:
 }
 ```
 
-On Linux, to test `website-server serve-many` locally,
+On Linux, to test `x-server serve-many` locally,
 we can add subdomains to `localhost` by editing `/etc/hosts`.
 
 For examples:
