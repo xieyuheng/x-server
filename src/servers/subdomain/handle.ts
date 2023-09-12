@@ -33,10 +33,10 @@ export async function handle(
       ? requestSubdomain(request, ctx.domain)
       : await findSubdomain(ctx.directory, requestHostname(request))
 
+  const withLog = !ctx.rootConfig.server?.logger?.disableRequestLogging
+
   if (subdomain === undefined) {
     const code = 404
-
-    const withLog = !ctx.rootConfig.server?.logger?.disableRequestLogging
 
     if (withLog)
       log({
@@ -62,8 +62,6 @@ export async function handle(
     ctx.rootConfig,
     await readWebsiteConfigFileOrDefault(`${subdirectory}/website.json`),
   ])
-
-  const withLog = !config.server?.logger?.disableRequestLogging
 
   if (config.cors) {
     if (request.method === "OPTIONS") {
