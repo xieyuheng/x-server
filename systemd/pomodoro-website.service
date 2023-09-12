@@ -3,7 +3,7 @@ Description=Pomodoro website by FiDB
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/website-server serve /websites/pomodoro \
+ExecStart=/usr/local/bin/x-server serve /websites/pomodoro \
   --cors \
   --rewrite-not-found-to index.html \
   --cache-control-pattern 'assets/**: max-age=31536000'
