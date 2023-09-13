@@ -139,12 +139,49 @@ For examples:
 
 When doing subdomain-based routing,
 we can also support custom domain for a subdomain,
-by adding adding a file `.domain-map/<custom-domain>/<subdomain>`,
+by adding adding a file
+
+```
+.domain-map/<custom-domain>/subdomain
+```
+
 where the file content is the subdomain.
 
 You can edit the DNS record of your custom domain,
 to point to the full subdomain.
 And update `.domain-map/` on your server to support it.
+
+Custom domain is only supported when TLS is enabled.
+To provide TLS certificate for a custom domain,
+add the following files:
+
+```
+.domain-map/<custom-domain>/cert
+.domain-map/<custom-domain>/key
+```
+
+To get free certificate for your domain,
+`certbot` can be used.
+
+- [Certbot website](https://certbot.eff.org/instructions)
+- [Certbot on archlinux wiki](https://wiki.archlinux.org/title/certbot)
+
+We prefer creating certificate via DNS TXT record,
+install `certbot` and run the following command:
+
+```sh
+sudo certbot certonly --manual --preferred-challenges dns
+```
+
+then the prompt of `certbot` to create certificate,
+you will need to add TXT record to the DNS record of your domain.
+
+After created the certificate, copy them to `.domain-map` of your custom domain:
+
+```sh
+sudo cat /etc/letsencrypt/live/<custom-domain>/fullchain.pem > /websites/.domain-map/<custom-domain>/cert
+sudo cat /etc/letsencrypt/live/<custom-domain>/privkey.pem > /websites/.domain-map/<custom-domain>/key
+```
 
 ## Development
 
