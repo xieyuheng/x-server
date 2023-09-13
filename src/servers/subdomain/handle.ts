@@ -33,7 +33,7 @@ export async function handle(
       ? requestSubdomain(request, ctx.domain)
       : await findSubdomain(ctx.directory, requestHostname(request))
 
-  const withLog = !ctx.rootConfig.logger?.disableRequestLogging
+  const withLog = !ctx.config.logger?.disableRequestLogging
 
   if (subdomain === undefined) {
     const code = 404
@@ -59,7 +59,7 @@ export async function handle(
 
   const subdirectory = normalize(resolve(ctx.directory, subdomain))
   const config = mergeWebsiteConfigs([
-    ctx.rootConfig,
+    ctx.config,
     await readWebsiteConfigFileOrDefault(`${subdirectory}/website.json`),
   ])
 

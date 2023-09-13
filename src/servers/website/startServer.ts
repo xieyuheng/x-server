@@ -17,8 +17,7 @@ export async function startServer(
   const ctx = await createContext({ path, config })
   log({ who, message: "createContext", ctx })
 
-  const { logger } = config
-  const listener = createRequestListener({ ctx, handle, logger })
+  const listener = createRequestListener({ ctx, handle, logger: config.logger })
 
   if (config.server?.tls) {
     const server = Https.createServer(
