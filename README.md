@@ -165,7 +165,7 @@ Where `/websites/website.json` is:
     "tls": {
       "cert": "/etc/letsencrypt/live/fidb.app/fullchain.pem",
       "key": "/etc/letsencrypt/live/fidb.app/privkey.pem"
-    },
+    }
   }
 }
 ```
