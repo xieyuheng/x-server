@@ -16,7 +16,9 @@ export async function startWebsiteServer(
   log({ who, message: "createContext", ctx })
 
   const server = config.server || {}
-  const listener = createRequestListener({ ctx, handle, server })
+  const logger = config.logger || {}
+
+  const listener = createRequestListener({ ctx, handle, server, logger })
   const { url } = await startServer(listener, server)
 
   log({ who, message: "startServer", url: String(url) })

@@ -19,7 +19,7 @@ export async function handle(
   request: Http.IncomingMessage,
   response: Http.ServerResponse,
 ): Promise<Json | Buffer | void> {
-  const withLog = !ctx.config.server?.logger?.disableRequestLogging
+  const withLog = !ctx.config.logger?.disableRequestLogging
 
   if (ctx.config.cors) {
     if (request.method === "OPTIONS") {

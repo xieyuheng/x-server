@@ -1,6 +1,8 @@
 # subdomain
 
 inline `server/createServer`
+remove `server/createServer` to `website/createServer`
+remove `server/createServer` to `subdomain/createServer`
 
 [subdomain] support loading user provided cert for custom domain
 

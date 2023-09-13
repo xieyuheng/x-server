@@ -33,7 +33,7 @@ export async function handle(
       ? requestSubdomain(request, ctx.domain)
       : await findSubdomain(ctx.directory, requestHostname(request))
 
-  const withLog = !ctx.rootConfig.server?.logger?.disableRequestLogging
+  const withLog = !ctx.rootConfig.logger?.disableRequestLogging
 
   if (subdomain === undefined) {
     const code = 404

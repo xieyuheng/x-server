@@ -27,10 +27,16 @@ function mergeTwoWebsiteConfigs(
     ...objectRemoveUndefined(right.server || {}),
   }
 
+  const logger = {
+    ...left.logger,
+    ...objectRemoveUndefined(right.logger || {}),
+  }
+
   return {
     ...left,
     ...(objectRemoveUndefined(right) as WebsiteConfig),
     server,
+    logger,
     cacheControlPatterns,
   }
 }

@@ -7,7 +7,7 @@ export type ServerOptions = {
   port?: number
   startingPort?: number
   tls?: TlsOptions
-  logger?: LoggerOptions
+
 }
 
 export const ServerOptionsSchema: Schema<ServerOptions> = ty.object({
@@ -15,5 +15,4 @@ export const ServerOptionsSchema: Schema<ServerOptions> = ty.object({
   port: ty.optional(ty.number()),
   startingPort: ty.optional(ty.number()),
   tls: ty.optional(TlsOptionsSchema),
-  logger: ty.optional(LoggerOptionsSchema),
 })

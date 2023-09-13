@@ -8,6 +8,7 @@ import { Unprocessable } from "../errors/Unprocessable"
 import { log } from "../utils/log"
 import { responseSetHeaders } from "../utils/node/responseSetHeaders"
 import { responseSetStatus } from "../utils/node/responseSetStatus"
+import { LoggerOptions } from "./LoggerOptions"
 import { RequestHandler } from "./RequestHandler"
 import { RequestListener } from "./RequestListener"
 import { ServerOptions } from "./ServerOptions"
@@ -15,11 +16,12 @@ import { ServerOptions } from "./ServerOptions"
 export function createRequestListener<Context>(options: {
   ctx: Context
   server: ServerOptions
+  logger: LoggerOptions
   handle: RequestHandler<Context>
 }): RequestListener {
   const { ctx, handle } = options
   return async (request, response) => {
-    const withLog = !options.server.logger?.disableRequestLogging
+    const withLog = !options.logger?.disableRequestLogging
 
     try {
       const body = await handle(ctx, request, response)

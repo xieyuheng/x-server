@@ -97,10 +97,10 @@ Where `/websites/website.json`:
       "cert": "/etc/letsencrypt/live/readonly.link/fullchain.pem",
       "key": "/etc/letsencrypt/live/readonly.link/privkey.pem"
     },
-    "logger": {
-      "name": "pretty-line",
-      "disableRequestLogging": true
-    }
+  },
+  "logger": {
+    "name": "pretty-line",
+    "disableRequestLogging": true
   }
 }
 ```
