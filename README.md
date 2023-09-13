@@ -16,46 +16,60 @@ The command line program is called `x-server`.
 
 - [Serve one website](#serve-one-website)
 - [Serve many websites](#serve-many-websites)
+- [Config logger](#config-logger)
 - [Use custom domain](#use-custom-domain)
+- [Get free certificate](#get-free-certificate)
 
 ### Serve one website
 
-Serve a single-page-app using `http` with an available port (starting from 8080):
+Use the `x-server serve` command to serve one website:
 
 ```sh
-x-server serve /websites/pomodoro \
+x-server serve <directory>
+```
+
+When serving a [single-page application (SPA)](https://en.wikipedia.org/wiki/Single-page_application),
+we need to redirect all requests to `index.html`.
+
+Example command for serving a SPA:
+
+```sh
+x-server serve <directory> \
   --cors \
   --rewrite-not-found-to index.html \
   --cache-control-pattern 'assets/**: max-age=31536000'
 ```
 
-Serve a single-page-app using `https` with a given port:
+To serve a website using HTTPS, we need to provide TLS certificate.
+
+Example command for serving a SPA using HTTPS:
 
 ```sh
-x-server serve /websites/readonlylink \
+x-server serve <directory> \
   --cors \
   --port 443 \
   --rewrite-not-found-to index.html \
   --cache-control-pattern 'assets/**: max-age=31536000' \
-  --tls-cert /etc/letsencrypt/live/readonly.link/fullchain.pem \
-  --tls-key /etc/letsencrypt/live/readonly.link/privkey.pem
+  --tls-cert <certificate-file> \
+  --tls-key <private-key-file>
 ```
 
-Serve a single-page-app using `https` with a `website.json` config file:
+It is unhandy to issue long command,
+thus we also support using a `website.json` config file:
 
 ```sh
-x-server serve /websites/readonlylink/website.json
+x-server serve <directory>/website.json
 ```
 
-Where `/websites/readonlylink/website.json`:
+Where `<directory>/website.json` is:
 
 ```json
 {
   "server": {
     "port": 443,
     "tls": {
-      "cert": "/etc/letsencrypt/live/readonly.link/fullchain.pem",
-      "key": "/etc/letsencrypt/live/readonly.link/privkey.pem"
+      "cert": "<certificate-file>",
+      "key": "<private-key-file>"
     }
   },
   "cors": true,
@@ -68,38 +82,99 @@ Where `/websites/readonlylink/website.json`:
 
 ### Serve many websites
 
-Serve many websites in a directory, using subdomain-based routing:
+The main use case of `x-server` is to
+serve many websites in one directory,
+using subdomain-based routing.
 
-- Each website might have it's own `website.json` config file,
-- The `server` option of config file in subdirectory will be ignored.
-- the `hostname` option is required.
+For example, I have a VPS machine,
+where I put all my websites
+in the `/websites` directory.
+
+```
+/websites/www
+/websites/graphwind
+/websites/inet
+/websites/pomodoro
+/websites/readonlylink
+...
+```
+
+I bought a domain for my server -- say `fidb.app`,
+and configured my DNS to resolve `fidb.app`
+and `*.fidb.app` to my server.
+
+I also created certificate files for my domain using `certbot`.
+
+- About how to use `certbot`, please see
+  the ["Get free certificate"](#get-free-certificate) section.
+
+I can use `x-server serve-many` command to serve all of
+the websites in `/websites` directory.
 
 ```sh
 x-server serve-many /websites \
-  --hostname localhost \
+  --hostname fidb.app \
   --port 443 \
   --tls-cert /etc/letsencrypt/live/fidb.app/fullchain.pem \
   --tls-key /etc/letsencrypt/live/fidb.app/privkey.pem
 ```
 
-Serve many with base `website.json` config file:
+Then I can visit all my websites via subdomain of `fidb.app`.
+
+```
+https://www.fidb.app
+https://graphwind.fidb.app
+https://inet.fidb.app
+https://pomodoro.fidb.app
+https://readonlylink.fidb.app
+...
+```
+
+If no subdomain is given in a request,
+`www/` will be used as the default subdomain directory
+(while no redirect will be done).
+
+Thus the following websites have the same contents:
+
+```
+https://fidb.app
+https://www.fidb.app
+```
+
+When using `x-server serve-many`,
+the `hostname` option is required,
+and each website in `/websites` might have
+it's own `website.json` config file,
+
+Instead of issuing long command,
+we can also use a root `website.json` config file.
 
 ```sh
 x-server serve-many /websites/website.json
 ```
 
-Where `/websites/website.json`:
+Where `/websites/website.json` is:
 
 ```json
 {
   "server": {
-    "hostname": "localhost",
+    "hostname": "fidb.app",
     "port": 443,
     "tls": {
-      "cert": "/etc/letsencrypt/live/readonly.link/fullchain.pem",
-      "key": "/etc/letsencrypt/live/readonly.link/privkey.pem"
+      "cert": "/etc/letsencrypt/live/fidb.app/fullchain.pem",
+      "key": "/etc/letsencrypt/live/fidb.app/privkey.pem"
     },
-  },
+  }
+}
+```
+
+### Config logger
+
+We can config logger in `/websites/website.json`:
+
+```json
+{
+  ...,
   "logger": {
     "name": "pretty-line",
     "disableRequestLogging": true
@@ -107,83 +182,96 @@ Where `/websites/website.json`:
 }
 ```
 
-The `LoggerOptions` used above is:
+The type of logger options are:
 
 ```ts
-export type LoggerName = "json" | "silent" | "pretty" | "pretty-line"
-
 export type LoggerOptions = {
-  name: LoggerName
+  name: "json" | "silent" | "pretty" | "pretty-line"
   disableRequestLogging?: boolean
 }
 ```
 
-The default `LoggerOptions` is:
+The default logger options are:
 
 ```json
 {
-  "name": "pretty-line"
+  "name": "pretty-line",
+  disableRequestLogging: false
 }
 ```
-
-On Linux, to test `x-server serve-many` locally,
-we can add subdomains to `localhost` by editing `/etc/hosts`.
-
-For examples:
-
-```
-127.0.1.1 readonlylink.localhost
-127.0.1.1 pomodoro.localhost
-...
-```
-
-If no subdomain is given in a request,
-`x-server` will use `www/` as the default subdomain directory.
 
 ### Use custom domain
 
 When doing subdomain-based routing,
 we can also support custom domain for a subdomain,
-by adding adding a file
+by adding adding a file in `.domain-map/` directory.
 
 ```
-.domain-map/<custom-domain>/subdomain
+/websites/.domain-map/<custom-domain>/subdomain
 ```
 
-where the file content is the subdomain.
+Where the content of the file is the subdomain, for examples:
 
-Then you can add an A record to the DNS of your custom domain,
-to point to the IP address of your server
-(or adding an ALIAS record to point to the domain of your server).
+```
+/websites/.domain-map/readonly.link/subdomain -- (content: readonlylink)
+/websites/.domain-map/inet.run/subdomain -- (content: inet)
+...
+```
+
+Then I can the following DNS ALIAS records to my custom domains:
+
+- You can also use A record and IP addresses.
+
+| Domain        | Type  | Value                  |
+|---------------|-------|------------------------|
+| readonly.link | ALIAS | readonlylink.fidb.app. |
+| inet.run      | ALIAS | inet.fidb.app.         |
+
 
 Custom domain is only supported when TLS is enabled.
 To provide TLS certificate for a custom domain,
 add the following files:
 
 ```
-.domain-map/<custom-domain>/cert
-.domain-map/<custom-domain>/key
+/websites/.domain-map/<custom-domain>/cert
+/websites/.domain-map/<custom-domain>/key
 ```
 
-To get free certificate for your domain,
-`certbot` can be used.
+For example, the listing of `.domain-map/` is the following:
+
+```
+/websites/.domain-map/readonly.link/subdomain
+/websites/.domain-map/readonly.link/cert
+/websites/.domain-map/readonly.link/key
+/websites/.domain-map/inet.run/subdomain
+/websites/.domain-map/inet.run/cert
+/websites/.domain-map/inet.run/key
+...
+```
+
+### Get free certificate
+
+You can use `certbot` to get free certificate for our domains.
 
 - [Certbot website](https://certbot.eff.org/instructions)
 - [Certbot on archlinux wiki](https://wiki.archlinux.org/title/certbot)
 
-We prefer creating certificate via DNS TXT record,
-install `certbot` and run the following command:
+After install `certbot`,
+I prefer creating certificate via DNS TXT record,
+using the following command:
 
 ```sh
 sudo certbot certonly --manual --preferred-challenges dns
 ```
 
-then the prompt of `certbot` to create certificate,
-you will need to add TXT record to the DNS record of your domain.
+Then you can follow the prompt of `certbot`
+to create the certificate files,
+during which you will need to add TXT record
+to the DNS record of your domain
+to accomplish the challenge given by `certbot`.
 
-After created the certificate, copy them to `.domain-map` of your custom domain:
-
-- Suppose we use `/websites` as the directory of websites.
+After created the certificate files,
+I use the follow command to copy them to my `.domain-map`:
 
 ```sh
 sudo cat /etc/letsencrypt/live/<custom-domain>/fullchain.pem > /websites/.domain-map/<custom-domain>/cert
