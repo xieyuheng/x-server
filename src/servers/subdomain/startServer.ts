@@ -15,18 +15,21 @@ export async function startServer(
 
   const ctx = await createContext({ path, rootConfig })
 
-  log({ who, message: "createContext", ctx })
+  log({
+    who,
+    message: "createContext",
+    ctx,
+  })
 
   const listener = createRequestListener({
     ctx,
     handle,
-    server: rootConfig?.server || {},
     logger: rootConfig?.logger || {},
   })
 
   const serverOptions = rootConfig?.server || {}
 
-  const { scheme, server } = await createServer(listener, serverOptions)
+  const server = await createServer(listener, serverOptions)
 
   const hostname = serverOptions.hostname || "127.0.0.1"
 
@@ -38,7 +41,11 @@ export async function startServer(
 
   await serverListen(server, { hostname, port })
 
-  const url = new URL(`${scheme}://${hostname}:${port}`)
+  const scheme = serverOptions.tls ? "https" : "http"
 
-  log({ who, message: "startServer", url: String(url) })
+  log({
+    who,
+    message: "serverListen",
+    url: `${scheme}://${hostname}:${port}`,
+  })
 }

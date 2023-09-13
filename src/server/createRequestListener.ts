@@ -11,11 +11,9 @@ import { responseSetStatus } from "../utils/node/responseSetStatus"
 import { LoggerOptions } from "./LoggerOptions"
 import { RequestHandler } from "./RequestHandler"
 import { RequestListener } from "./RequestListener"
-import { ServerOptions } from "./ServerOptions"
 
 export function createRequestListener<Context>(options: {
   ctx: Context
-  server: ServerOptions
   logger: LoggerOptions
   handle: RequestHandler<Context>
 }): RequestListener {
