@@ -18,6 +18,10 @@ export async function createServer(
         {
           cert: await fs.promises.readFile(options.tls.cert),
           key: await fs.promises.readFile(options.tls.key),
+          // SNICallback: (name, cb) => {
+          //   console.log(name)
+          //   cb(null, null)
+          // }
         },
         requestListener,
       ),
