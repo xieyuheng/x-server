@@ -36,7 +36,7 @@ Example command for serving a SPA:
 ```sh
 x-server serve <directory> \
   --cors \
-  --rewrite-not-found-to index.html \
+  --redirect-not-found-to index.html \
   --cache-control-pattern 'assets/**: max-age=31536000'
 ```
 
@@ -48,7 +48,7 @@ Example command for serving a SPA using HTTPS:
 x-server serve <directory> \
   --cors \
   --port 443 \
-  --rewrite-not-found-to index.html \
+  --redirect-not-found-to index.html \
   --cache-control-pattern 'assets/**: max-age=31536000' \
   --tls-cert <certificate-file> \
   --tls-key <private-key-file>
@@ -73,7 +73,7 @@ Where `<directory>/website.json` is:
     }
   },
   "cors": true,
-  "rewriteNotFoundTo": "index.html",
+  "redirectNotFoundTo": "index.html",
   "cacheControlPatterns": {
     "assets/**": "max-age=31536000"
   }

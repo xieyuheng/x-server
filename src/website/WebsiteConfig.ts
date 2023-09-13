@@ -6,7 +6,7 @@ export type WebsiteConfig = {
   server?: ServerOptions
   logger?: LoggerOptions
   cors?: boolean
-  rewriteNotFoundTo?: string
+  redirectNotFoundTo?: string
   cacheControlPatterns?: Record<string, string>
 }
 
@@ -14,6 +14,6 @@ export const WebsiteConfigSchema: Schema<WebsiteConfig> = ty.object({
   server: ty.optional(ServerOptionsSchema),
   logger: ty.optional(LoggerOptionsSchema),
   cors: ty.optional(ty.boolean()),
-  rewriteNotFoundTo: ty.optional(ty.string()),
+  redirectNotFoundTo: ty.optional(ty.string()),
   cacheControlPatterns: ty.optional(ty.dict(ty.string())),
 })

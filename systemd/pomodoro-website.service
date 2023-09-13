@@ -5,7 +5,7 @@ After=network.target
 [Service]
 ExecStart=/usr/local/bin/x-server serve /websites/pomodoro \
   --cors \
-  --rewrite-not-found-to index.html \
+  --redirect-not-found-to index.html \
   --cache-control-pattern 'assets/**: max-age=31536000'
 Restart=on-failure
 

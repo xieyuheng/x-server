@@ -12,7 +12,7 @@ export async function readContentWithRewrite(
     return content
   }
 
-  if (config.rewriteNotFoundTo !== undefined) {
-    return await readContent(directory, config.rewriteNotFoundTo)
+  if (config.redirectNotFoundTo !== undefined) {
+    return await readContent(directory, config.redirectNotFoundTo)
   }
 }

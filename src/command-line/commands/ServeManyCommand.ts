@@ -15,7 +15,7 @@ type Opts = {
   "tls-cert"?: string
   "tls-key"?: string
   cors?: boolean
-  "rewrite-not-found-to"?: string
+  "redirect-not-found-to"?: string
   "cache-control-pattern"?: string | Array<string>
   "logger-name"?: LoggerName
 }
@@ -32,7 +32,7 @@ export class ServeManyCommand extends Command<Args> {
     "tls-cert": ty.optional(ty.string()),
     "tls-key": ty.optional(ty.string()),
     cors: ty.optional(ty.boolean()),
-    "rewrite-not-found-to": ty.optional(ty.string()),
+    "redirect-not-found-to": ty.optional(ty.string()),
     "cache-control-pattern": ty.optional(
       ty.union(ty.string(), ty.array(ty.string())),
     ),

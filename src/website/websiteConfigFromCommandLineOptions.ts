@@ -8,7 +8,7 @@ export function websiteConfigFromCommandLineOptions(options: {
   "tls-cert"?: string
   "tls-key"?: string
   cors?: boolean
-  "rewrite-not-found-to"?: string
+  "redirect-not-found-to"?: string
   "cache-control-pattern"?: string | Array<string>
   "logger-name"?: LoggerName
 }): WebsiteConfig {
@@ -20,7 +20,7 @@ export function websiteConfigFromCommandLineOptions(options: {
   return {
     server,
     cors: options["cors"],
-    rewriteNotFoundTo: options["rewrite-not-found-to"],
+    redirectNotFoundTo: options["redirect-not-found-to"],
     cacheControlPatterns,
   }
 }
