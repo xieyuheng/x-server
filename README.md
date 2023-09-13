@@ -1,6 +1,8 @@
 # X Server
 
-A website server that supports serving many websites by subdomain-based routing.
+A website server
+that supports serving many websites
+using subdomain-based routing.
 
 ## Install
 
