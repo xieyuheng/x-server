@@ -137,6 +137,9 @@ For examples:
 ...
 ```
 
+If no subdomain is given in a request,
+`x-server` will use `www/` as the default subdomain directory.
+
 ### Use custom domain
 
 When doing subdomain-based routing,

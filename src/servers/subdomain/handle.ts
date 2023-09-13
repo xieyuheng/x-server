@@ -25,13 +25,16 @@ export async function handle(
   request: Http.IncomingMessage,
   response: Http.ServerResponse,
 ): Promise<Json | Buffer | void> {
+  const hostname = requestHostname(request)
   const basedomain = requestBasedomain(request)
   const pathname = requestPathname(request)
 
   const subdomain =
-    basedomain === ctx.domain
+    ctx.domain === hostname
+      ? "www"
+      : ctx.domain === basedomain
       ? requestSubdomain(request, ctx.domain)
-      : await findSubdomain(ctx.directory, requestHostname(request))
+      : await findSubdomain(ctx.directory, hostname)
 
   const withLog = !ctx.config.logger?.disableRequestLogging
 
