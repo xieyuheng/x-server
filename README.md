@@ -2,9 +2,7 @@
 
 A website server that supports serving many websites by subdomain-based routing.
 
-## Usages
-
-### Command line tool
+## Install
 
 Install it by the following command:
 
@@ -14,9 +12,9 @@ npm install -g @xieyuheng/x-server
 
 The command line program is called `x-server`.
 
-## Examples
+## Docs
 
-### `x-server serve`
+### Serve one website
 
 Serve a single-page-app using `http` with an available port (starting from 8080):
 
@@ -64,7 +62,7 @@ Where `/websites/readonlylink/website.json`:
 }
 ```
 
-### `x-server serve-many`
+### Serve many websites
 
 Serve many websites in a directory, using subdomain-based routing:
 
@@ -135,7 +133,7 @@ For examples:
 ...
 ```
 
-### Using `.domain-map/` with `serve-many`
+### Use custom domain
 
 When doing subdomain-based routing,
 we can also support custom domain for a subdomain,
@@ -148,7 +146,8 @@ by adding adding a file
 where the file content is the subdomain.
 
 Then you can add an A record to the DNS of your custom domain,
-to point to the IP address of your server.
+to point to the IP address of your server
+(or adding an ALIAS record to point to the domain of your server).
 
 Custom domain is only supported when TLS is enabled.
 To provide TLS certificate for a custom domain,
