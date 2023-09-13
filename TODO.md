@@ -1,7 +1,5 @@
 # subdomain
 
-inline `server/createServer`
-
 [subdomain] support loading user provided cert for custom domain
 
 - use `SNICallback`
