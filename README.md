@@ -177,6 +177,8 @@ you will need to add TXT record to the DNS record of your domain.
 
 After created the certificate, copy them to `.domain-map` of your custom domain:
 
+- Suppose we use `/websites` as the directory of websites.
+
 ```sh
 sudo cat /etc/letsencrypt/live/<custom-domain>/fullchain.pem > /websites/.domain-map/<custom-domain>/cert
 sudo cat /etc/letsencrypt/live/<custom-domain>/privkey.pem > /websites/.domain-map/<custom-domain>/key
