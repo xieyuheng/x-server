@@ -1,9 +1,5 @@
 # subdomain
 
-[subdomain] domain-map should use directory instead of file
-
-- `.domain-map/<custom-domain>/subdomain (a file)`
-
 inline `server/createServer`
 
 [subdomain] support loading user provided cert for custom domain

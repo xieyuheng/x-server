@@ -5,7 +5,7 @@ export async function findSubdomain(
   hostname: string,
 ): Promise<string | undefined> {
   try {
-    const file = `${directory}/.domain-map/${hostname}`
+    const file = `${directory}/.domain-map/${hostname}/subdomain`
     const text = await fs.promises.readFile(file, "utf-8")
     return text.trim()
   } catch (_error) {
