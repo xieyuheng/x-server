@@ -1,7 +1,7 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
 import { dirname } from "node:path"
-import { startSubdomainServer } from "../../servers/subdomain/startSubdomainServer"
+import { startServer } from "../../servers/subdomain/startServer"
 import { LoggerName, LoggerNameSchema, changeLogger } from "../../utils/log"
 import { pathIsFile } from "../../utils/node/pathIsFile"
 import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
@@ -64,11 +64,11 @@ export class ServeManyCommand extends Command<Args> {
       ])
 
       const path = dirname(argv.path)
-      await startSubdomainServer(path, config)
+      await startServer(path, config)
     } else {
       const config = websiteConfigFromCommandLineOptions(argv)
       const { path } = argv
-      await startSubdomainServer(path, config)
+      await startServer(path, config)
     }
   }
 }

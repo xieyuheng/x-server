@@ -1,7 +1,7 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
 import { dirname } from "node:path"
-import { startWebsiteServer } from "../../servers/website/startWebsiteServer"
+import { startServer } from "../../servers/website/startServer"
 import { LoggerName, LoggerNameSchema, changeLogger } from "../../utils/log"
 import { pathIsFile } from "../../utils/node/pathIsFile"
 import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
@@ -66,11 +66,11 @@ export class ServeCommand extends Command<Args> {
         websiteConfigFromCommandLineOptions(argv),
       ])
       const path = dirname(argv.path)
-      await startWebsiteServer(path, config)
+      await startServer(path, config)
     } else {
       const config = websiteConfigFromCommandLineOptions(argv)
       const { path } = argv
-      await startWebsiteServer(path, config)
+      await startServer(path, config)
     }
   }
 }
