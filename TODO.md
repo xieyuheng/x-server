@@ -6,9 +6,8 @@
 
 - save them in `.domain-map/<custom-domain>` directory
 
-  - `.domain-map/<custom-domain>/subdomain`
-  - `.domain-map/<custom-domain>/fullchain.pem`
-  - `.domain-map/<custom-domain>/privkey.pem`
+  - `.domain-map/<custom-domain>/cert`
+  - `.domain-map/<custom-domain>/key`
 
 [subdomain] update docs about using custom domain
 
