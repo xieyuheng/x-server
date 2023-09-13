@@ -1,5 +1,4 @@
 import { Schema, ty } from "@xieyuheng/ty"
-import { LoggerOptions, LoggerOptionsSchema } from "./LoggerOptions"
 import { TlsOptions, TlsOptionsSchema } from "./TlsOptions"
 
 export type ServerOptions = {
@@ -7,7 +6,6 @@ export type ServerOptions = {
   port?: number
   startingPort?: number
   tls?: TlsOptions
-
 }
 
 export const ServerOptionsSchema: Schema<ServerOptions> = ty.object({
