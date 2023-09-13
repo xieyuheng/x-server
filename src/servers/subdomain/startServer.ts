@@ -1,8 +1,10 @@
 import fs from "node:fs"
 import Http from "node:http"
 import Https from "node:https"
+import tls from "node:tls"
 import { createRequestListener } from "../../server/createRequestListener"
 import { serverListenWithDefault } from "../../server/serverListenWithDefault"
+import { findCertificate } from "../../subdomain/findCertificate"
 import { log } from "../../utils/log"
 import { WebsiteConfig } from "../../website/WebsiteConfig"
 import { createContext } from "./createContext"
@@ -24,10 +26,15 @@ export async function startServer(
       {
         cert: await fs.promises.readFile(config.server.tls.cert),
         key: await fs.promises.readFile(config.server.tls.key),
-        // SNICallback: (name, cb) => {
-        //   console.log(name)
-        //   cb(null, null)
-        // }
+        SNICallback: async (hostname, changeSecureContext) => {
+          const certificate = await findCertificate(ctx.directory, hostname)
+          if (certificate !== undefined) {
+            const secureContext = tls.createSecureContext({ ...certificate })
+            changeSecureContext(null, secureContext)
+          } else {
+            changeSecureContext(null, undefined)
+          }
+        },
       },
       listener,
     )
