@@ -198,7 +198,7 @@ The default logger options are:
 ```json
 {
   "name": "pretty-line",
-  disableRequestLogging: false
+  "disableRequestLogging": false
 }
 ```
 
