@@ -14,7 +14,7 @@ import { RequestListener } from "./RequestListener"
 
 export function createRequestListener<Context>(options: {
   ctx: Context
-  logger: LoggerOptions
+  logger?: LoggerOptions
   handle: RequestHandler<Context>
 }): RequestListener {
   const { ctx, handle } = options

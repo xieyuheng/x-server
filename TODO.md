@@ -1,7 +1,5 @@
 # subdomain
 
-extract `server/serverListenWithDefault`
-
 inline `server/createServer`
 
 [subdomain] support loading user provided cert for custom domain
