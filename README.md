@@ -14,6 +14,10 @@ The command line program is called `x-server`.
 
 ## Docs
 
+- [Serve one website](#serve-one-website)
+- [Serve many websites](#serve-many-websites)
+- [Use custom domain](#use-custom-domain)
+
 ### Serve one website
 
 Serve a single-page-app using `http` with an available port (starting from 8080):
