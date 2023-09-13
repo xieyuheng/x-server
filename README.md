@@ -147,9 +147,8 @@ by adding adding a file
 
 where the file content is the subdomain.
 
-You can edit the DNS record of your custom domain,
-to point to the full subdomain.
-And update `.domain-map/` on your server to support it.
+Then you can add an A record to the DNS of your custom domain,
+to point to the IP address of your server.
 
 Custom domain is only supported when TLS is enabled.
 To provide TLS certificate for a custom domain,
