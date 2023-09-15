@@ -254,7 +254,7 @@ For example, the listing of `.domain-map/` is the following:
 
 ### Get free certificate
 
-You can use `certbot` to get free certificate for our domains.
+You can use `certbot` to get free certificate for your domains.
 
 - [Certbot website](https://certbot.eff.org/instructions)
 - [Certbot on archlinux wiki](https://wiki.archlinux.org/title/certbot)
