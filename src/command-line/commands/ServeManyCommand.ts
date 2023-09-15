@@ -45,7 +45,7 @@ export class ServeManyCommand extends Command<Args> {
 
     return [
       `The ${blue(this.name)} command takes a website.json config file,`,
-      `and serve the directory that contains config file`,
+      `and serve the directory that contains the config file`,
       `using subdomain-based routing.`,
       ``,
       blue(`  ${runner.name} ${this.name} /websites/website.json`),
