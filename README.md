@@ -207,7 +207,7 @@ The default logger options are:
 
 When doing subdomain-based routing,
 we can also support custom domain for a subdomain,
-by adding adding a file in `.domain-map/` directory.
+by adding a file in `.domain-map/` directory.
 
 ```
 /websites/.domain-map/<custom-domain>/subdomain
@@ -287,7 +287,7 @@ On a Linux server, we can use `systemd` to start a service,
 or enable a service to start whenever the server is booted.
 
 
-Exmaple service file `fidb-app-x-server.service`:
+Example service file `fidb-app-x-server.service`:
 
 ```
 [Unit]
