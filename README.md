@@ -21,6 +21,7 @@ The command line program is called `x-server`.
 - [Config logger](#config-logger)
 - [Use custom domain](#use-custom-domain)
 - [Get free certificate](#get-free-certificate)
+- [Use systemd to start service](#use-systemd-to-start-service)
 
 ### Serve one website
 
@@ -278,6 +279,53 @@ I use the follow command to copy them to my `.domain-map`:
 ```sh
 sudo cat /etc/letsencrypt/live/<custom-domain>/fullchain.pem > /websites/.domain-map/<custom-domain>/cert
 sudo cat /etc/letsencrypt/live/<custom-domain>/privkey.pem > /websites/.domain-map/<custom-domain>/key
+```
+
+### Use systemd to start service
+
+On a Linux server, we can use `systemd` to start a service,
+or enable a service to start whenever the server is booted.
+
+
+Exmaple service file `fidb-app-x-server.service`:
+
+```
+[Unit]
+Description=fidb.app x-server
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/x-server serve-many /websites/website.json
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Install service:
+
+```
+sudo cp <name>.service /etc/systemd/system/
+```
+
+Using service:
+
+```
+sudo systemctl start <name>.service
+sudo systemctl enable <name>.service
+sudo systemctl status <name>.service
+```
+
+To view log:
+
+```
+journalctl -f -u <name>.service
+```
+
+Reload systemd config files:
+
+```
+systemctl daemon-reload
 ```
 
 ## Development
