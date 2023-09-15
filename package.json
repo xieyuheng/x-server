@@ -1,6 +1,6 @@
 {
   "name": "@xieyuheng/x-server",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": "github:xieyuheng/x-server",
   "main": "./lib/index.js",
   "files": [
