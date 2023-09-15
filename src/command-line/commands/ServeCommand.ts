@@ -56,9 +56,7 @@ export class ServeCommand extends Command<Args> {
   }
 
   async execute(argv: Args & Opts): Promise<void> {
-    if (argv["logger-name"]) {
-      changeLogger(argv["logger-name"])
-    }
+    changeLogger(argv["logger-name"] || "pretty-line")
 
     if (await pathIsFile(argv.path)) {
       const config = mergeWebsiteConfigs([
