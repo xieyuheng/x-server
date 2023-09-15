@@ -44,10 +44,11 @@ export class ServeManyCommand extends Command<Args> {
     const { blue } = this.colors
 
     return [
-      `The ${blue(this.name)} command takes a path to directory of websites,`,
-      `and serve them using subdomain-based routing.`,
+      `The ${blue(this.name)} command takes a website.json config file,`,
+      `and serve the directory that contains config file`,
+      `using subdomain-based routing.`,
       ``,
-      blue(`  ${runner.name} ${this.name} /websites`),
+      blue(`  ${runner.name} ${this.name} /websites/website.json`),
       ``,
     ].join("\n")
   }
