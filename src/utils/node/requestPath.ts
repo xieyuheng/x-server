@@ -1,6 +1,6 @@
 import type Http from "node:http"
 import { normalize } from "node:path"
-import { requestPathname } from "../../utils/node/requestPathname"
+import { requestPathname } from "./requestPathname"
 
 export function requestPath(request: Http.IncomingMessage): string {
   const pathname = requestPathname(request)

@@ -145,8 +145,9 @@ https://www.fidb.app
 ```
 
 When using `x-server serve-many`,
-the `hostname` option is required,
-and each website in `/websites` might have
+the `hostname` option is required.
+
+And each website in `/websites` might have
 it's own `website.json` config file,
 
 Instead of issuing long command,
