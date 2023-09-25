@@ -18,6 +18,7 @@ export function createRequestListener<Context>(options: {
   logger?: LoggerOptions
 }): RequestListener {
   const { ctx, handle } = options
+
   return async (request, response) => {
     const withLog = !options.logger?.disableRequestLogging
 
