@@ -2,13 +2,9 @@ import type { Buffer } from "node:buffer"
 import type Http from "node:http"
 import { normalize, resolve } from "node:path"
 import { handlePreflight } from "../../server/handlePreflight"
-import { findSubdomain } from "../../subdomain/findSubdomain"
 import type { Json } from "../../utils/Json"
 import { log } from "../../utils/log"
-import { requestBasedomain } from "../../utils/node/requestBasedomain"
-import { requestHostname } from "../../utils/node/requestHostname"
 import { requestPathname } from "../../utils/node/requestPathname"
-import { requestSubdomain } from "../../utils/node/requestSubdomain"
 import { responseSetHeaders } from "../../utils/node/responseSetHeaders"
 import { responseSetStatus } from "../../utils/node/responseSetStatus"
 import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
@@ -18,6 +14,7 @@ import { responseSetCacheControlHeaders } from "../../website/responseSetCacheCo
 import { responseSetCorsHeaders } from "../../website/responseSetCorsHeaders"
 import { responseSendContent } from "../website/responseSendContent"
 import type { Context } from "./Context"
+import { requestFindSubdomain } from "./requestFindSubdomain"
 
 export async function handle(
   ctx: Context,
@@ -25,14 +22,7 @@ export async function handle(
   response: Http.ServerResponse,
 ): Promise<Json | Buffer | void> {
   const who = "subdomain/handle"
-  const hostname = requestHostname(request)
-  const basedomain = requestBasedomain(request)
-  const subdomain =
-    ctx.domain === hostname
-      ? "www"
-      : ctx.domain === basedomain
-      ? requestSubdomain(request, ctx.domain)
-      : await findSubdomain(ctx.directory, hostname)
+  const subdomain = await requestFindSubdomain(ctx, request)
   const pathname = requestPathname(request)
   // NOTE `decodeURIComponent` is necessary for the space characters in url.
   const path = normalize(decodeURIComponent(pathname.slice(1)))
@@ -40,8 +30,7 @@ export async function handle(
 
   if (subdomain === undefined) {
     const code = 404
-    if (withLog)
-      log({ who, hostname: ctx.domain, basedomain, subdomain, pathname, code })
+    if (withLog) log({ who, hostname: ctx.domain, subdomain, pathname, code })
     responseSetStatus(response, { code })
     responseSetHeaders(response, { connection: "close" })
     response.end()
