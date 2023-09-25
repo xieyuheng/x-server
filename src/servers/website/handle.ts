@@ -1,9 +1,9 @@
 import type { Buffer } from "node:buffer"
 import type Http from "node:http"
-import { normalize } from "node:path"
 import { handlePreflight } from "../../server/handlePreflight"
 import type { Json } from "../../utils/Json"
 import { log } from "../../utils/log"
+import { requestPath } from "../../utils/node/requestPath"
 import { requestPathname } from "../../utils/node/requestPathname"
 import { readContentWithRewrite } from "../../website/readContentWithRewrite"
 import { responseSetCacheControlHeaders } from "../../website/responseSetCacheControlHeaders"
@@ -19,8 +19,7 @@ export async function handle(
   const who = "website/handle"
   const withLog = !ctx.config.logger?.disableRequestLogging
   const pathname = requestPathname(request)
-  // NOTE `decodeURIComponent` is necessary for the space characters in url.
-  const path = normalize(decodeURIComponent(pathname.slice(1)))
+  const path = requestPath(request)
 
   if (request.method === "OPTIONS" && ctx.config.cors)
     return handlePreflight(request, response)
