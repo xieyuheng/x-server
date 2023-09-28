@@ -4,10 +4,10 @@ import Https from "node:https"
 import tls from "node:tls"
 import { createRequestListener } from "../../server/createRequestListener"
 import { serverListenWithDefault } from "../../server/serverListenWithDefault"
-import { findCertificate } from "../../subdomain/findCertificate"
 import { log } from "../../utils/log"
 import { WebsiteConfig } from "../../website/WebsiteConfig"
 import { createContext } from "./createContext"
+import { findCertificate } from "./findCertificate"
 import { handle } from "./handle"
 
 export async function startServer(

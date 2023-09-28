@@ -1,9 +1,9 @@
 import type Http from "node:http"
-import { findSubdomain } from "../../subdomain/findSubdomain"
 import { requestBasedomain } from "../../utils/node/requestBasedomain"
 import { requestHostname } from "../../utils/node/requestHostname"
 import { requestSubdomain } from "../../utils/node/requestSubdomain"
 import { Context } from "./Context"
+import { findSubdomain } from "./findSubdomain"
 
 export async function requestFindSubdomain(
   ctx: Context,
