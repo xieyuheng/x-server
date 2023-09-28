@@ -144,12 +144,6 @@ https://fidb.app
 https://www.fidb.app
 ```
 
-When using `x-server serve-many`,
-the `hostname` option is required.
-
-And each website in `/websites` might have
-it's own `website.json` config file,
-
 Instead of issuing long command,
 we can also use a root `website.json` config file.
 
@@ -171,6 +165,12 @@ Where `/websites/website.json` is:
   }
 }
 ```
+
+- When using `x-server serve-many`,
+  the `server.hostname` option is required.
+
+- And each website in `/websites` might have
+  it's own `website.json` config file.
 
 ### Config logger
 

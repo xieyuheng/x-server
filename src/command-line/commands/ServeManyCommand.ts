@@ -2,6 +2,7 @@ import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
 import { dirname } from "node:path"
 import { startServer } from "../../servers/subdomain/startServer"
+import { readWebsiteConfigFileOrDefault,  } from "../../website/readWebsiteConfigFileOrDefault"
 import { LoggerName, LoggerNameSchema, changeLogger } from "../../utils/log"
 import { pathIsFile } from "../../utils/node/pathIsFile"
 import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
@@ -57,15 +58,20 @@ export class ServeManyCommand extends Command<Args> {
     changeLogger(argv["logger-name"] || "pretty-line")
 
     if (await pathIsFile(argv.path)) {
+      const configFile = argv.path
       const config = mergeWebsiteConfigs([
-        await readWebsiteConfigFile(argv.path),
+        await readWebsiteConfigFile(configFile),
         websiteConfigFromCommandLineOptions(argv),
       ])
 
       const path = dirname(argv.path)
       await startServer(path, config)
     } else {
-      const config = websiteConfigFromCommandLineOptions(argv)
+      const configFile = `${argv.path}/website.json`
+      const config = mergeWebsiteConfigs([
+        await readWebsiteConfigFileOrDefault(configFile),
+        websiteConfigFromCommandLineOptions(argv),
+      ])
       const { path } = argv
       await startServer(path, config)
     }
