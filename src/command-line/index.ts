@@ -3,11 +3,11 @@ import * as Commands from "./commands"
 
 export function createCommandRunner(): CommandRunner {
   return new CommandRunners.CommonCommandRunner({
-    defaultCommand: new Commands.DefaultCommand(),
+    defaultCommand: new Commands.Default(),
     commands: [
-      new Commands.CommonHelpCommand(),
-      new Commands.ServeCommand(),
-      new Commands.ServeManyCommand(),
+      new Commands.CommonHelp(),
+      new Commands.ServeWebsite(),
+      new Commands.ServeSubdomain(),
     ],
   })
 }

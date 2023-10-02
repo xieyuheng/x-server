@@ -1,12 +1,12 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
 import { dirname } from "node:path"
-import { startServer } from "../../servers/subdomain/startServer"
-import { readWebsiteConfigFileOrDefault,  } from "../../website/readWebsiteConfigFileOrDefault"
+import { startServer } from "../../servers/website/startServer"
 import { LoggerName, LoggerNameSchema, changeLogger } from "../../utils/log"
 import { pathIsFile } from "../../utils/node/pathIsFile"
 import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
 import { readWebsiteConfigFile } from "../../website/readWebsiteConfigFile"
+import { readWebsiteConfigFileOrDefault } from "../../website/readWebsiteConfigFileOrDefault"
 import { websiteConfigFromCommandLineOptions } from "../../website/websiteConfigFromCommandLineOptions"
 
 type Args = { path: string }
@@ -21,10 +21,10 @@ type Opts = {
   "logger-name"?: LoggerName
 }
 
-export class ServeManyCommand extends Command<Args> {
-  name = "serve-many"
+export class ServeWebsite extends Command<Args> {
+  name = "serve"
 
-  description = "Serve many websites using subdomain-based routing"
+  description = "Serve a website"
 
   args = { path: ty.string() }
   opts = {
@@ -45,11 +45,13 @@ export class ServeManyCommand extends Command<Args> {
     const { blue } = this.colors
 
     return [
-      `The ${blue(this.name)} command takes a website.json config file,`,
-      `and serve the directory that contains the config file`,
-      `using subdomain-based routing.`,
+      `The ${blue(this.name)} command takes a path`,
+      `to a website directory or to a ${blue('website.json')} file,`,
+      `and serve it as a website.`,
       ``,
-      blue(`  ${runner.name} ${this.name} /websites/website.json`),
+      blue(`  ${runner.name} ${this.name} dist`),
+      ``,
+      blue(`  ${runner.name} ${this.name} dist/website.json`),
       ``,
     ].join("\n")
   }
@@ -63,7 +65,6 @@ export class ServeManyCommand extends Command<Args> {
         await readWebsiteConfigFile(configFile),
         websiteConfigFromCommandLineOptions(argv),
       ])
-
       const path = dirname(argv.path)
       await startServer(path, config)
     } else {

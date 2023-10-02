@@ -111,11 +111,11 @@ I also created certificate files for my domain using `certbot`.
 - About how to use `certbot`, please see
   the ["Get free certificate"](#get-free-certificate) section.
 
-I can use `x-server serve-many` command to serve all of
+I can use `x-server serve:subdomain` command to serve all of
 the websites in `/websites` directory.
 
 ```sh
-x-server serve-many /websites \
+x-server serve:subdomain /websites \
   --hostname fidb.app \
   --port 443 \
   --tls-cert /etc/letsencrypt/live/fidb.app/fullchain.pem \
@@ -148,7 +148,7 @@ Instead of issuing long command,
 we can also use a root `website.json` config file.
 
 ```sh
-x-server serve-many /websites/website.json
+x-server serve:subdomain /websites/website.json
 ```
 
 Where `/websites/website.json` is:
@@ -166,7 +166,7 @@ Where `/websites/website.json` is:
 }
 ```
 
-- When using `x-server serve-many`,
+- When using `x-server serve:subdomain`,
   the `server.hostname` option is required.
 
 - And each website in `/websites` might have
@@ -296,7 +296,7 @@ Description=fidb.app x-server
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/x-server serve-many /websites/website.json
+ExecStart=/usr/local/bin/x-server serve:subdomain /websites/website.json
 Restart=on-failure
 
 [Install]

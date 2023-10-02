@@ -1,12 +1,12 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
+import * as Commands from "."
 import { packageJson } from "../../utils/node/packageJson"
-import * as Commands from "../commands"
 
 type Args = {}
 type Opts = { version?: boolean }
 
-export class DefaultCommand extends Command<Args, Opts> {
+export class Default extends Command<Args, Opts> {
   name = "default"
 
   description = "Print help message"
@@ -22,7 +22,7 @@ export class DefaultCommand extends Command<Args, Opts> {
       return
     }
 
-    const command = new Commands.CommonHelpCommand()
+    const command = new Commands.CommonHelp()
     await command.execute({}, runner)
   }
 }

@@ -1,12 +1,12 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
 import ty from "@xieyuheng/ty"
 import { dirname } from "node:path"
-import { startServer } from "../../servers/website/startServer"
+import { startServer } from "../../servers/subdomain/startServer"
 import { LoggerName, LoggerNameSchema, changeLogger } from "../../utils/log"
 import { pathIsFile } from "../../utils/node/pathIsFile"
 import { mergeWebsiteConfigs } from "../../website/mergeWebsiteConfigs"
-import { readWebsiteConfigFile,  } from "../../website/readWebsiteConfigFile"
-import { readWebsiteConfigFileOrDefault,  } from "../../website/readWebsiteConfigFileOrDefault"
+import { readWebsiteConfigFile } from "../../website/readWebsiteConfigFile"
+import { readWebsiteConfigFileOrDefault } from "../../website/readWebsiteConfigFileOrDefault"
 import { websiteConfigFromCommandLineOptions } from "../../website/websiteConfigFromCommandLineOptions"
 
 type Args = { path: string }
@@ -21,10 +21,10 @@ type Opts = {
   "logger-name"?: LoggerName
 }
 
-export class ServeCommand extends Command<Args> {
-  name = "serve"
+export class ServeSubdomain extends Command<Args> {
+  name = "serve:subdomain"
 
-  description = "Serve a website"
+  description = "Serve many websites using subdomain-based routing"
 
   args = { path: ty.string() }
   opts = {
@@ -45,13 +45,11 @@ export class ServeCommand extends Command<Args> {
     const { blue } = this.colors
 
     return [
-      `The ${blue(this.name)} command takes a path`,
-      `to a website directory or to a ${blue('website.json')} file,`,
-      `and serve it as a website.`,
+      `The ${blue(this.name)} command takes a website.json config file,`,
+      `and serve the directory that contains the config file`,
+      `using subdomain-based routing.`,
       ``,
-      blue(`  ${runner.name} ${this.name} dist`),
-      ``,
-      blue(`  ${runner.name} ${this.name} dist/website.json`),
+      blue(`  ${runner.name} ${this.name} /websites/website.json`),
       ``,
     ].join("\n")
   }
@@ -65,6 +63,7 @@ export class ServeCommand extends Command<Args> {
         await readWebsiteConfigFile(configFile),
         websiteConfigFromCommandLineOptions(argv),
       ])
+
       const path = dirname(argv.path)
       await startServer(path, config)
     } else {
