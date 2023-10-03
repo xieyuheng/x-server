@@ -333,7 +333,7 @@ journalctl -f -u <name>.service
 Reload systemd config files:
 
 ```
-systemctl daemon-reload
+sudo systemctl daemon-reload
 ```
 
 ## Development

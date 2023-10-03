@@ -6,12 +6,12 @@ export function requestCompressionMethod(
   if (typeof request.headers["accept-encoding"] === "string") {
     const encodings = request.headers["accept-encoding"].split(",")
 
-    if (encodings.find((encoding) => encoding.trim().startsWith("br"))) {
-      return "br"
-    }
-
     if (encodings.find((encoding) => encoding.trim().startsWith("gzip"))) {
       return "gzip"
+    }
+
+    if (encodings.find((encoding) => encoding.trim().startsWith("br"))) {
+      return "br"
     }
   }
 }
