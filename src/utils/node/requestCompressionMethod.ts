@@ -10,8 +10,8 @@ export function requestCompressionMethod(
       return "gzip"
     }
 
-    if (encodings.find((encoding) => encoding.trim().startsWith("br"))) {
-      return "br"
-    }
+    // if (encodings.find((encoding) => encoding.trim().startsWith("br"))) {
+    //   return "br"
+    // }
   }
 }
