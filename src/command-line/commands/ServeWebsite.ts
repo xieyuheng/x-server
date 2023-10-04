@@ -22,7 +22,7 @@ type Opts = {
 }
 
 export class ServeWebsite extends Command<Args> {
-  name = "serve:webwite"
+  name = "serve:website"
 
   description = "Serve a website"
 

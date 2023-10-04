@@ -17,7 +17,7 @@ The command line program is called `x-server`.
 ```
 Commands:
   help [name]             Display help for a command
-  serve:webwite [path]    Serve a website
+  serve:website [path]    Serve a website
   serve:subdomain [path]  Serve many websites using subdomain-based routing
 ```
 
@@ -35,7 +35,7 @@ Commands:
 Use the `x-server serve:website` command to serve one website:
 
 ```sh
-x-server serve:webwite <directory>
+x-server serve:website <directory>
 ```
 
 When serving a [single-page application (SPA)](https://en.wikipedia.org/wiki/Single-page_application),
@@ -44,7 +44,7 @@ we need to redirect all requests to `index.html`.
 Example command for serving a SPA:
 
 ```sh
-x-server serve:webwite <directory> \
+x-server serve:website <directory> \
   --cors \
   --redirect-not-found-to index.html \
   --cache-control-pattern 'assets/**: max-age=31536000'
@@ -55,7 +55,7 @@ To serve a website using HTTPS, we need to provide TLS certificate.
 Example command for serving a SPA using HTTPS:
 
 ```sh
-x-server serve:webwite <directory> \
+x-server serve:website <directory> \
   --cors \
   --port 443 \
   --redirect-not-found-to index.html \
@@ -68,7 +68,7 @@ It is unhandy to issue long command,
 thus we also support using a `website.json` config file:
 
 ```sh
-x-server serve:webwite <directory>/website.json
+x-server serve:website <directory>/website.json
 ```
 
 Where `<directory>/website.json` is:
