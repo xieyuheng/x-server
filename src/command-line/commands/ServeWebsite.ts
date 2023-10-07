@@ -1,5 +1,5 @@
 import { Command, CommandRunner } from "@xieyuheng/command-line"
-import ty from "@xieyuheng/ty"
+import { ty } from "@xieyuheng/ty"
 import { dirname } from "node:path"
 import { startServer } from "../../servers/website/startServer"
 import { LoggerName, LoggerNameSchema, changeLogger } from "../../utils/log"

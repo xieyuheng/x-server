@@ -1,4 +1,4 @@
-import { Errors as TyErrors } from "@xieyuheng/ty"
+import { isReport } from "@xieyuheng/ty"
 import { AlreadyExists } from "../errors/AlreadyExists"
 import { NotFound } from "../errors/NotFound"
 import { Processing } from "../errors/Processing"
@@ -102,14 +102,9 @@ export function createRequestListener<Context>(options: {
         responseSetStatus(response, { code: 422, message })
         responseSetHeaders(response, headers)
         response.end()
-      } else if (TyErrors.InvalidData.guard(error)) {
+      } else if (isReport(error)) {
         responseSetStatus(response, { code: 422, message })
         responseSetHeaders(response, headers)
-        response.write(
-          JSON.stringify({
-            errors: { [error.path]: error.msg },
-          }),
-        )
         response.end()
       } else {
         responseSetStatus(response, { code: 500, message })
