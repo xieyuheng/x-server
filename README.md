@@ -109,9 +109,9 @@ in the `/websites` directory.
 ...
 ```
 
-I bought a domain for my server -- say `fidb.app`,
-and configured my DNS to resolve `fidb.app`
-and `*.fidb.app` to my server.
+I bought a domain for my server -- say `example.com`,
+and configured my DNS to resolve `example.com`
+and `*.example.com` to my server.
 
 I also created certificate files for my domain using `certbot`.
 
@@ -123,20 +123,20 @@ the websites in `/websites` directory.
 
 ```sh
 x-server serve:subdomain /websites \
-  --hostname fidb.app \
+  --hostname example.com \
   --port 443 \
-  --tls-cert /etc/letsencrypt/live/fidb.app/fullchain.pem \
-  --tls-key /etc/letsencrypt/live/fidb.app/privkey.pem
+  --tls-cert /etc/letsencrypt/live/example.com/fullchain.pem \
+  --tls-key /etc/letsencrypt/live/example.com/privkey.pem
 ```
 
-Then I can visit all my websites via subdomain of `fidb.app`.
+Then I can visit all my websites via subdomain of `example.com`.
 
 ```
-https://www.fidb.app
-https://graphwind.fidb.app
-https://inet.fidb.app
-https://pomodoro.fidb.app
-https://readonlylink.fidb.app
+https://www.example.com
+https://graphwind.example.com
+https://inet.example.com
+https://pomodoro.example.com
+https://readonlylink.example.com
 ...
 ```
 
@@ -147,8 +147,8 @@ If no subdomain is given in a request,
 Thus the following websites have the same contents:
 
 ```
-https://fidb.app
-https://www.fidb.app
+https://example.com
+https://www.example.com
 ```
 
 Instead of issuing long command,
@@ -163,11 +163,11 @@ Where `/websites/website.json` is:
 ```json
 {
   "server": {
-    "hostname": "fidb.app",
+    "hostname": "example.com",
     "port": 443,
     "tls": {
-      "cert": "/etc/letsencrypt/live/fidb.app/fullchain.pem",
-      "key": "/etc/letsencrypt/live/fidb.app/privkey.pem"
+      "cert": "/etc/letsencrypt/live/example.com/fullchain.pem",
+      "key": "/etc/letsencrypt/live/example.com/privkey.pem"
     }
   }
 }
@@ -234,7 +234,7 @@ Then I can the following DNS ALIAS records to my custom domains:
 
 | Domain        | Type  | Value                  |
 |---------------|-------|------------------------|
-| readonly.link | ALIAS | readonlylink.fidb.app. |
+| readonly.link | ALIAS | readonlylink.example.com. |
 
 
 Custom domain is only supported when TLS is enabled.
@@ -294,7 +294,7 @@ Example service file `fidb-app-x-server.service`:
 
 ```
 [Unit]
-Description=fidb.app x-server
+Description=example.com x-server
 After=network.target
 
 [Service]
