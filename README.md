@@ -225,7 +225,6 @@ Where the content of the file is the subdomain, for examples:
 
 ```
 /websites/.domain-map/readonly.link/subdomain -- (content: readonlylink)
-/websites/.domain-map/inet.run/subdomain -- (content: inet)
 ...
 ```
 
@@ -236,7 +235,6 @@ Then I can the following DNS ALIAS records to my custom domains:
 | Domain        | Type  | Value                  |
 |---------------|-------|------------------------|
 | readonly.link | ALIAS | readonlylink.fidb.app. |
-| inet.run      | ALIAS | inet.fidb.app.         |
 
 
 Custom domain is only supported when TLS is enabled.
@@ -254,9 +252,6 @@ For example, the listing of `.domain-map/` is the following:
 /websites/.domain-map/readonly.link/subdomain
 /websites/.domain-map/readonly.link/cert
 /websites/.domain-map/readonly.link/key
-/websites/.domain-map/inet.run/subdomain
-/websites/.domain-map/inet.run/cert
-/websites/.domain-map/inet.run/key
 ...
 ```
 
