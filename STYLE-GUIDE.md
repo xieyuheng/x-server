@@ -22,9 +22,9 @@ do not use too much abbreviations.
 
 If you must, explain them before using.
 
-# Open v.s. closed types
+# Open vs. closed types
 
-Beware of open v.s. closed types.
+Beware of open vs. closed types.
 
 We use object-oriented style for open types,
 and use functional style for closed types.
